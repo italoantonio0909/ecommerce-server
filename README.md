@@ -2,7 +2,7 @@ Ecommerce Servidor NodeJS.
 Clean arquitecture 💉
 
 
-Entidades 📷
+Entities 📷
 -Blog
 -Authentication
 -Subscribers
