@@ -1,6 +1,10 @@
 export interface Customer {
-  id?: string
+  uid?: string
   email: string
-  password: string
-  status: 'active' | 'inactive'
+  phoneNumber?: string
+  emailVerified?: boolean
+  password?: string
+  displayName?: string
+  photoURL?: string
+  disabled: boolean
 }

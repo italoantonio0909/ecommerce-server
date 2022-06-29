@@ -21,21 +21,24 @@ export class SubscriberWebApiClientUserInterface
     this.api.use(cors({ origin: 'http://localhost:4200' }))
   }
 
-  installGetSubscribers(callback: () => Promise<Array<Subscriber>>): void {
+  installSubscribersAll(
+    callback: (limit: number) => Promise<Array<Subscriber>>
+  ): void {
     this.api.get(
       '/api/subscribers',
-      async function (_: Request, resp: Response) {
-        const subscribers = await callback()
+      async function (req: Request, resp: Response) {
+        const { limit } = req.params
+        const subscribers = await callback(parseInt(limit))
         return resp.status(200).send(subscribers)
       }
     )
   }
 
-  installCreateSubscribers(
+  installSubscriberCreate(
     callback: (subscriber: Subscriber) => Promise<Subscriber>
   ): void {
     this.api.post(
-      '/api/subscribers/create',
+      '/api/subscribers',
       async function (req: Request, resp: Response) {
         const subscriber = req.body as Subscriber
         const subscriberCreated = await callback(subscriber)
@@ -44,11 +47,11 @@ export class SubscriberWebApiClientUserInterface
     )
   }
 
-  installDeleteSubscriber(
+  installSubscriberDelete(
     callback: (email: string) => Promise<Subscriber>
   ): void {
-    this.api.post(
-      '/api/subscribers/delete',
+    this.api.delete(
+      '/api/subscribers',
       async function (req: Request, resp: Response) {
         const email = req.body as string
         const subscriberDelete = await callback(email)

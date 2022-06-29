@@ -31,6 +31,7 @@ export class AuthenticationWebApiClient implements AuthenticationRepository {
   }
 
   async signIn({ email, password }: AuthCredential): Promise<any> {
+    this.auth.generateSignInWithEmailLink
     // return await this.auth.getTok(
     //   email,
     //   password

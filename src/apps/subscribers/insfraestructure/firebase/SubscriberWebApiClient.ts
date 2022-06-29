@@ -11,8 +11,6 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   firestore: admin.firestore.Firestore
 
   constructor() {
-    // const admin = require('firebase-admin')
-
     const firestore = admin.initializeApp({
       credential: applicationDefault(),
       databaseURL: process.env.GOOGLE_APPLICATION_DATABASE,
@@ -21,28 +19,25 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     this.firestore = firestore.firestore()
   }
 
-  async getSubscribers(): Promise<Array<Subscriber>> {
-    const subscribersData = await this.firestore.collection('subscribers').get()
-    return subscribersData.docs.map((e: any) => ({
+  async subscribersAll(limit: number): Promise<Array<Subscriber>> {
+    const ref = this.firestore.collection('subscribers').limit(limit)
+    const snapshot = await ref.get()
+    return snapshot.docs.map((e: any) => ({
       id: e.id,
       ...e.data(),
     }))
   }
 
-  async createSubscriber(subscriber: Subscriber): Promise<Subscriber> {
-    const { writeTime } = await this.firestore
-      .collection('subscribers')
-      .doc(subscriber.email)
-      .set(subscriber)
+  async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {
+    const ref = this.firestore.collection('subscribers').doc(subscriber.email)
+    const { writeTime } = await ref.set(subscriber)
     if (writeTime) {
       return subscriber
     }
   }
 
-  async deleteSubscriber(email: string): Promise<any> {
-    return await this.firestore
-      .collection('subscribers')
-      .doc(email)
-      .update({ status: 'inactive' })
+  async subscriberDelete(email: string): Promise<any> {
+    const ref = this.firestore.collection('subscribers').doc(email)
+    return await ref.update({ status: 'inactive' })
   }
 }

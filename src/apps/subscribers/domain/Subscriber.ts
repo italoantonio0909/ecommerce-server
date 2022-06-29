@@ -1,7 +1,9 @@
-export interface Subscriber {
-  id?: string
-  email: string
-  created_at?: number
-  modified_at?: number
-  status: 'active' | 'inactive'
+type SubscriberStatus = 'active' | 'inactive'
+
+export class Subscriber {
+  readonly id?: string
+  readonly email: string
+  readonly created_at?: number
+  readonly modified_at?: number
+  readonly status: SubscriberStatus
 }
