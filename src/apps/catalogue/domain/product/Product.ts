@@ -1,15 +1,18 @@
 import { Category } from '../category/Category'
 import { ProductClass } from '../product-class/ProductClass'
 
+type ProductStructure = 'standalone' | 'parent' | 'child'
+
 export interface Product {
-  structure: 'standalone' | 'parent' | 'child'
-  is_public: boolean
-  title: string
-  description: string
-  product_class: ProductClass
-  rating: boolean
-  created_at?: number
-  modified_at?: number
-  categories: Array<Category>
-  is_discountable: boolean
+  readonly structure: ProductStructure
+  readonly is_public: boolean
+  readonly paren: Product
+  readonly title: string
+  readonly description: string
+  readonly product_class: ProductClass
+  readonly categories: Array<Category>
+  readonly is_discountable: boolean
+  readonly rating: boolean
+  readonly created_at?: number
+  readonly modified_at?: number
 }

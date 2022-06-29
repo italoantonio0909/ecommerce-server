@@ -13,11 +13,14 @@ export class SubscriberAdapter {
   ) {}
 
   init() {
-    this.subscribersUserInterface.installGetSubscribers(() =>
-      this.subscribers.getSubscribers()
+    this.subscribersUserInterface.installSubscribersAll((limit: number) =>
+      this.subscribers.subscribersAll(limit)
     )
-    this.subscribersUserInterface.installCreateSubscribers(
-      (subscriber: Subscriber) => this.subscribers.createSubscriber(subscriber)
+    this.subscribersUserInterface.installSubscriberCreate(
+      (subscriber: Subscriber) => this.subscribers.subscriberCreate(subscriber)
+    )
+    this.subscribersUserInterface.installSubscriberDelete((email: string) =>
+      this.subscribers.subscriberDelete(email)
     )
   }
 }

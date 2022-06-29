@@ -10,22 +10,22 @@ export class SubscriberUseCases {
     private subscribersRepository: SubscribersRepository
   ) {}
 
-  async getSubscribers(): Promise<Array<Subscriber>> {
-    const subscribers = await this.subscribersRepository.getSubscribers()
+  async subscribersAll(limit: number): Promise<Array<Subscriber>> {
+    const subscribers = await this.subscribersRepository.subscribersAll(limit)
     return subscribers.filter(({ status }) => status === 'active')
   }
 
-  async createSubscriber({ email }: Subscriber): Promise<Subscriber> {
-    const data: Subscriber = {
+  async subscriberCreate({ email }: Subscriber): Promise<Subscriber> {
+    const subscriber: Subscriber = {
       email,
-      status: 'active',
       created_at: new Date().getTime(),
       modified_at: new Date().getTime(),
+      status: 'active',
     }
-    return this.subscribersRepository.createSubscriber(data)
+    return this.subscribersRepository.subscriberCreate(subscriber)
   }
 
-  async deleteSubscriber(email: string): Promise<Subscriber> {
-    return this.subscribersRepository.deleteSubscriber(email)
+  async subscriberDelete(email: string): Promise<Subscriber> {
+    return this.subscribersRepository.subscriberDelete(email)
   }
 }

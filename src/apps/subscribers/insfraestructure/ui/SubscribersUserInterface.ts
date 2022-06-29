@@ -1,11 +1,13 @@
 import { Subscriber } from '../../domain/Subscriber'
 
 export interface SubscribersUserInterface {
-  installGetSubscribers(callback: () => Promise<Array<Subscriber>>): void
-  installCreateSubscribers(
+  installSubscribersAll(
+    callback: (limit: number) => Promise<Array<Subscriber>>
+  ): void
+  installSubscriberCreate(
     callback: (subscriber: Subscriber) => Promise<Subscriber>
   ): void
-  installDeleteSubscriber(
+  installSubscriberDelete(
     callback: (email: string) => Promise<Subscriber>
   ): void
 }

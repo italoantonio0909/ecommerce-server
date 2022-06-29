@@ -1,7 +1,7 @@
 import { Subscriber } from './Subscriber'
 
 export interface SubscribersRepository {
-  getSubscribers(): Promise<Array<Subscriber>>
-  createSubscriber(subscriber: Subscriber): Promise<Subscriber>
-  deleteSubscriber(email: string): Promise<any>
+  subscribersAll(limit: number): Promise<Array<Subscriber>>
+  subscriberCreate(subscriber: Subscriber): Promise<Subscriber>
+  subscriberDelete(email: string): Promise<any>
 }

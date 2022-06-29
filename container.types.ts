@@ -6,7 +6,8 @@ const TYPES = {
   SubscriberApiClient: Symbol('SubscriberApiClient'),
 
   Customer: Symbol('Customer'),
-  CustomerRepository: Symbol('CustomerRepository'),
+  CustomerAdapter: Symbol('CustomerAdapter'),
+  CustomerApiClient: Symbol('CustomerApiClient'),
   CustomerUserInterface: Symbol('CustomerUserInterface'),
 
   Authentication: Symbol('Authentication'),
@@ -17,6 +18,11 @@ const TYPES = {
   Post: Symbol('Post'),
   PostWebApiClient: Symbol('PostWebApiClient'),
   PostUserInterface: Symbol('PostUserInterface'),
+
+  CatalogueCategory: Symbol('CatalogueCategory'),
+  CatalogueCategoryAdapter: Symbol('CatalogueCategoryAdapter'),
+  CatalogueCategoryUserInterface: Symbol('CatalogueCategoryUserInterface'),
+  CatalogueCategoryApiClient: Symbol('CatalogueCategoryApiClient'),
 }
 
 export default TYPES
