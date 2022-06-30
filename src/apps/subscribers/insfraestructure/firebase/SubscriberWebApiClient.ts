@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { Subscriber } from '../../domain/Subscriber'
+import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
 import { SubscribersRepository } from '../../domain/SubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'
 import admin from 'firebase-admin'
@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 @injectable()
 export class SubscriberWebApiClient implements SubscribersRepository {
+
   firestore: admin.firestore.Firestore
 
   constructor() {
@@ -19,25 +20,70 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     this.firestore = firestore.firestore()
   }
 
-  async subscribersAll(limit: number): Promise<Array<Subscriber>> {
-    const ref = this.firestore.collection('subscribers').limit(limit)
-    const snapshot = await ref.get()
-    return snapshot.docs.map((e: any) => ({
-      id: e.id,
-      ...e.data(),
-    }))
+  async subscriberSimpleQuery(limit: number): Promise<Array<Subscriber>> {
+    const first = this.firestore.collection('subscribers').orderBy('created_at')
+
+    const snapshot = await first.limit(limit).get()
+
+    const result = snapshot.docs.map((data: any) => ({
+      id: data.id,
+      ...data.data(),
+    })) as Array<Subscriber>
+
+    return result
+  }
+
+  async subscriberPaginateQuery(limit: number, startAfter: number): Promise<Array<Subscriber>> {
+    const first = this.firestore.collection('subscribers').orderBy('created_at')
+
+    const snapshot = await first.startAfter(startAfter).limit(limit).get()
+
+    const result = snapshot.docs.map((data: any) => ({
+      id: data.id,
+      ...data.data(),
+    })) as Array<Subscriber>
+
+    return result
+  }
+
+  async subscribersPaginate(limit: number, startAfter: number): Promise<SubscriberPaginate> {
+    const snapshot = startAfter === 0 ? await this.subscriberSimpleQuery(limit) : await this.subscriberPaginateQuery(limit, startAfter);
+
+    const last = snapshot[snapshot.length - 1]
+
+    return { subscribers: snapshot, startAfter: last.created_at }
   }
 
   async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {
-    const ref = this.firestore.collection('subscribers').doc(subscriber.email)
+    const ref = this.firestore.collection('subscribers').doc()
+
     const { writeTime } = await ref.set(subscriber)
     if (writeTime) {
       return subscriber
     }
   }
 
-  async subscriberDelete(email: string): Promise<any> {
-    const ref = this.firestore.collection('subscribers').doc(email)
-    return await ref.update({ status: 'inactive' })
+  async subscriberDelete(id: string): Promise<Subscriber> {
+    const ref = this.firestore.collection('subscribers').doc(id)
+
+    const { writeTime } = await ref.update({ status: 'inactive' })
+
+    if (writeTime) {
+      const snapshot = await ref.get()
+
+      return snapshot.data() as Subscriber
+    }
+  }
+
+  async subscriberFilter(email: string): Promise<Array<Subscriber>> {
+    const ref = this.firestore.collection('subscribers').where('email', '==', email.trim());
+    const snapshot = await ref.limit(1).get()
+    if (snapshot.empty) {
+      return [];
+    }
+    return snapshot.docs.map((e: any) => ({
+      id: e.id,
+      ...e.data()
+    }))
   }
 }
