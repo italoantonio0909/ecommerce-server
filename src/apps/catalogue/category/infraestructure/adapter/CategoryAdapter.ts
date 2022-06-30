@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify'
-import { CategoryUseCases } from '../../../application/category/CategoryUseCases'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
 import TYPES from '../../../../../../container.types'
-import { Category } from '../../../domain/category/Category'
+import { Category } from '../../domain/Category'
+import { CategoryUseCases } from '../../application/CategoryUseCases';
 
 @injectable()
 export class CategoryAdapter {

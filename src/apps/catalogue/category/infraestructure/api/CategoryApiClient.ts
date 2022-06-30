@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
-import { Category } from '../../../domain/category/Category'
+import { Category } from '../../../category/domain/Category'
 
 @injectable()
 export class CategoryApiClient implements CategoryUserInterface {

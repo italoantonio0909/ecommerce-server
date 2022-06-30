@@ -1,4 +1,4 @@
-import { Category } from '../../../domain/category/Category'
+import { Category } from '../../../category/domain/Category'
 
 export interface CategoryUserInterface {
   installCategoryPaginate(
