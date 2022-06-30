@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
-import { CategoryRepository } from '../../domain/category/CategoryRepository'
-import { Category } from '../../domain/category/Category'
+import { Category } from '../domain/Category'
 import TYPES from '../../../../../container.types'
+import { CategoryRepository } from '../domain/CategoryRepository';
 
 @injectable()
 export class CategoryUseCases {

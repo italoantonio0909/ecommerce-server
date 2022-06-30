@@ -1,9 +1,9 @@
 import admin from 'firebase-admin'
 import { applicationDefault } from 'firebase-admin/app'
-import { CategoryRepository } from '../../../domain/category/CategoryRepository'
-import { Category } from '../../../domain/category/Category'
+import { Category } from '../../../category/domain/Category'
 import { injectable } from 'inversify'
 import dotenv from 'dotenv'
+import { CategoryRepository } from '../../domain/CategoryRepository';
 
 dotenv.config()
 @injectable()

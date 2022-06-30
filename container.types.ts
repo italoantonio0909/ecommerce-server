@@ -23,6 +23,12 @@ const TYPES = {
   CatalogueCategoryAdapter: Symbol('CatalogueCategoryAdapter'),
   CatalogueCategoryUserInterface: Symbol('CatalogueCategoryUserInterface'),
   CatalogueCategoryApiClient: Symbol('CatalogueCategoryApiClient'),
+
+
+  CatalogueProduct: Symbol('CatalogueProduct'),
+  CatalogueProductAdapter: Symbol('CatalogueProductAdapter'),
+  CatalogueProductUserInterface: Symbol('CatalogueProductUserInterface'),
+  CatalogueProductApiClient: Symbol('CatalogueProductApiClient'),
 }
 
 export default TYPES

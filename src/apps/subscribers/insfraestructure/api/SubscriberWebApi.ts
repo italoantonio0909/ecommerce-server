@@ -7,14 +7,13 @@ import cors from 'cors'
 
 @injectable()
 export class SubscriberWebApiClientUserInterface
-  implements SubscribersUserInterface
-{
+  implements SubscribersUserInterface {
   static PORT = 3000
   api = express()
 
   constructor() {
-    this.api.listen(8000, () => {
-      console.log(`Subscribers listening on port 8000`)
+    this.api.listen(SubscriberWebApiClientUserInterface.PORT, () => {
+      console.log(`Subscribers listening on port ${SubscriberWebApiClientUserInterface.PORT}`)
     })
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())

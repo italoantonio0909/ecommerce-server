@@ -1,9 +1,9 @@
 import { Container } from 'inversify'
 import TYPES from '../../../container.types'
-import { CategoryUseCases } from './application/category/CategoryUseCases'
-import { CategoryAdapter } from './infraestructure/category/adapter/CategoryAdapter'
-import { CategoryApiClient } from './infraestructure/category/api/CategoryApiClient'
-import { CategoryWebApiClient } from './infraestructure/category/firebase/CategoryWebApiClient'
+import { CategoryAdapter } from './category/infraestructure/adapter/CategoryAdapter'
+import { CategoryUseCases } from './category/application/CategoryUseCases';
+import { CategoryWebApiClient } from './category/infraestructure/firebase/CategoryWebApiClient';
+import { CategoryApiClient } from './category/infraestructure/api/CategoryApiClient';
 
 export const container = new Container()
 container.bind(TYPES.CatalogueCategory).to(CategoryUseCases)

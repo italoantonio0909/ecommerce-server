@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify'
 import TYPES from '../../../../container.types'
 import { SubscribersRepository } from '../domain/SubscribersRepository'
-import { Subscriber } from '../domain/Subscriber'
+import { Subscriber } from '../domain/Subscriber';
 
 @injectable()
-export class SubscriberUseCases {
+export class Subscribers {
   constructor(
     @inject(TYPES.SubscriberApiClient)
     private subscribersRepository: SubscribersRepository
-  ) {}
+  ) { }
 
   async subscribersAll(limit: number): Promise<Array<Subscriber>> {
     const subscribers = await this.subscribersRepository.subscribersAll(limit)
