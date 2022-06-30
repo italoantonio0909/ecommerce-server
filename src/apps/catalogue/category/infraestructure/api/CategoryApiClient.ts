@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
-import { Category } from '../../../category/domain/Category'
+import { Category, CategoryPaginate } from '../../../category/domain/Category'
 
 @injectable()
 export class CategoryApiClient implements CategoryUserInterface {
@@ -20,7 +20,7 @@ export class CategoryApiClient implements CategoryUserInterface {
   }
 
   installCategoryPaginate(
-    callback: (limit: number, startAfter: number) => Promise<{ categories: Array<Category>, startAfter: number }>
+    callback: (limit: number, startAfter: number) => Promise<CategoryPaginate>
   ): void {
     this.api.get(
       '/api/catalogue/category/:limit/:startAfter',

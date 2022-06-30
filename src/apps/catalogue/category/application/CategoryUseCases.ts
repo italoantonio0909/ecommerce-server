@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify'
-import { Category } from '../domain/Category'
+import { Category, CategoryPaginate } from '../domain/Category';
 import TYPES from '../../../../../container.types'
 import { CategoryRepository } from '../domain/CategoryRepository';
 
@@ -10,7 +10,7 @@ export class CategoryUseCases {
     private readonly categoryRepository: CategoryRepository
   ) { }
 
-  async categoryPaginate(limit: number, startAfter: number): Promise<{ categories: Array<Category>; startAfter: number }> {
+  async categoryPaginate(limit: number, startAfter: number): Promise<CategoryPaginate> {
     const { categories, startAfter: startAfterResult } = await this.categoryRepository.categoryPaginate(limit, startAfter)
 
     const result = categories.filter(({ is_public }) => is_public === true)

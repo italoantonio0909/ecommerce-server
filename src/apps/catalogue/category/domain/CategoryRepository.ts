@@ -1,10 +1,10 @@
-import { Category } from './Category'
+import { Category, CategoryPaginate } from './Category';
 
 export interface CategoryRepository {
   categoryPaginate(
     limit: number,
     startAfter: number
-  ): Promise<{ categories: Array<Category>; startAfter: number }>
+  ): Promise<CategoryPaginate>
 
   categoryCreate(category: Category): Promise<Category>
 }

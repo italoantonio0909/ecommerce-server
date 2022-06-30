@@ -1,7 +1,11 @@
-import { Subscriber } from './Subscriber'
+import { Subscriber, SubscriberPaginate } from './Subscriber';
 
 export interface SubscribersRepository {
-  subscribersAll(limit: number): Promise<Array<Subscriber>>
+  subscribersPaginate(limit: number, startAfter: number): Promise<SubscriberPaginate>;
+
   subscriberCreate(subscriber: Subscriber): Promise<Subscriber>
-  subscriberDelete(email: string): Promise<any>
+
+  subscriberDelete(id: string): Promise<Subscriber>
+
+  subscriberFilter(email: string): Promise<Array<Subscriber>>;
 }
