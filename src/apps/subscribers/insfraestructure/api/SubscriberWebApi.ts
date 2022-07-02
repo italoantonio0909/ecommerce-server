@@ -9,8 +9,7 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
   if (res.headersSent) {
     return next(err)
   }
-  res.status(400)
-  res.json({ error: err })
+  res.status(400).json({ error: err.message })
 }
 
 @injectable()
@@ -52,9 +51,9 @@ export class SubscriberWebApiClientUserInterface
           const subscriberCreated = await callback(subscriber)
           return resp.status(201).send(subscriberCreated)
         } catch (error) {
-          next(error.message)
+          next(error)
         }
-      }
+      }, errorHandler
     )
   }
 
@@ -69,7 +68,6 @@ export class SubscriberWebApiClientUserInterface
         return resp.status(201).send(subscriberDelete)
       }
     )
-    this.api.use(errorHandler)
 
   }
 }

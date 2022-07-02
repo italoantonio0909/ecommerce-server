@@ -10,7 +10,7 @@ export class CustomerAdapter {
     @inject(TYPES.Customer) private customerUseCases: CustomerUseCases,
     @inject(TYPES.CustomerUserInterface)
     private customerUserInterface: CustomerUserInterface
-  ) {}
+  ) { }
 
   init() {
     this.customerUserInterface.installCustomerByUid((uid: string) =>
@@ -22,9 +22,9 @@ export class CustomerAdapter {
     this.customerUserInterface.installCustomerDelete((uid: string) =>
       this.customerUseCases.customerDelete(uid)
     )
-    this.customerUserInterface.installCustomerList(
+    this.customerUserInterface.installCustomerPaginate(
       (maxResults: number, pageToken: string) =>
-        this.customerUseCases.customerList(maxResults, pageToken)
+        this.customerUseCases.customersPaginate(maxResults, pageToken)
     )
   }
 }

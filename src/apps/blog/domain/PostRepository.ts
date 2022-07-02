@@ -1,6 +1,14 @@
 import { Post } from './Post'
 
-export interface PostRepository {
-  getAllPost(): Promise<Array<Post>>
-  getLastPost(): Promise<Post>
+export class PostRepository {
+  postPaginate: Promise<PostPaginate>
+
+  postCreate: Promise<Post>
+
+  postPublish: Promise<Post>
+
+  postDelete: Promise<Post>
+
 }
+
+export type PostPaginate = { posts: Array<Array<Post>>, startAfter: number }

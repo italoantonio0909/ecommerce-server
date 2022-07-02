@@ -1,10 +1,14 @@
-export interface Customer {
-  uid?: string
-  email: string
-  phoneNumber?: string
-  emailVerified?: boolean
-  password?: string
-  displayName?: string
-  photoURL?: string
-  disabled: boolean
+
+export class Customer {
+  readonly uid?: string
+  readonly email: string
+  readonly phoneNumber?: string
+  readonly emailVerified?: boolean
+  readonly password?: string
+  readonly displayName?: string
+  readonly photoURL?: string
+  readonly disabled: boolean
 }
+
+
+export type CustomerPaginated = { customers: Array<Customer>; pageToken: string }
