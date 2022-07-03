@@ -1,7 +1,18 @@
-import { Comment } from './Comment'
-import { Tags } from './Tags';
+import { Customer } from '../../customers/domain/Customer';
 
 type PostStatus = "active" | "inactive"
+
+type CommentStatus = "active" | "inactive" | "banned"
+
+export type PostPaginate = { post: Array<Post>, startAfter: number }
+
+export class Comment {
+  readonly created_by: Customer;
+  readonly content: string
+  readonly status: CommentStatus
+  readonly created_at?: number
+  readonly modified_at?: number
+}
 
 export class Post {
   readonly id?: string;
@@ -12,9 +23,10 @@ export class Post {
   readonly number_comments: number
   readonly comments: Array<Comment>
   readonly status: PostStatus;
-  readonly tags: Array<Tags>
   readonly is_public: boolean
   readonly publish_at?: number
   readonly created_at?: number
   readonly modified_at?: number
 }
+
+

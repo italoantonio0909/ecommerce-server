@@ -15,15 +15,15 @@ const TYPES = {
   AuthenticationUserInterface: Symbol('AuthenticationUserInterface'),
   AuthenticationApiClient: Symbol('AuthenticationApiClient'),
 
-  Post: Symbol('Post'),
-  PostWebApiClient: Symbol('PostWebApiClient'),
-  PostUserInterface: Symbol('PostUserInterface'),
+  Blog: Symbol('Post'),
+  BlogWebApiClient: Symbol('PostWebApiClient'),
+  BlogUserInterface: Symbol('PostUserInterface'),
+  BlogAdapter: Symbol('BlogAdapter'),
 
   CatalogueCategory: Symbol('CatalogueCategory'),
   CatalogueCategoryAdapter: Symbol('CatalogueCategoryAdapter'),
   CatalogueCategoryUserInterface: Symbol('CatalogueCategoryUserInterface'),
   CatalogueCategoryApiClient: Symbol('CatalogueCategoryApiClient'),
-
 
   CatalogueProduct: Symbol('CatalogueProduct'),
   CatalogueProductAdapter: Symbol('CatalogueProductAdapter'),
