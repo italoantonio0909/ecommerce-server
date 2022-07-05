@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify'
 import { Category, CategoryPaginate } from '../domain/Category';
 import TYPES from '../../../../../container.types'
 import { CategoryRepository } from '../domain/CategoryRepository';
+import { CategoryAlreadyExists } from '../domain/CategoryAlreadyExists';
 
 @injectable()
 export class CategoryUseCases {
@@ -11,14 +12,20 @@ export class CategoryUseCases {
   ) { }
 
   async categoryPaginate(limit: number, startAfter: number): Promise<CategoryPaginate> {
-    const { categories, startAfter: startAfterResult } = await this.categoryRepository.categoryPaginate(limit, startAfter)
+    return await this.categoryRepository.categoryPaginate(limit, startAfter)
+  }
 
-    const result = categories.filter(({ is_public }) => is_public === true)
-
-    return { categories: result, startAfter: startAfterResult }
+  async categorySearch(name: string): Promise<Category> {
+    return await this.categoryRepository.categorySearch(name)
   }
 
   async categoryCreate(data: Category): Promise<Category> {
+    const exist = await this.categorySearch(data.name);
+    console.log(exist)
+    if (exist !== null) {
+      throw new CategoryAlreadyExists()
+    }
+
     const category: Category = {
       ...data,
       created_at: new Date().getTime(),
@@ -26,4 +33,5 @@ export class CategoryUseCases {
     }
     return await this.categoryRepository.categoryCreate(category)
   }
+
 }

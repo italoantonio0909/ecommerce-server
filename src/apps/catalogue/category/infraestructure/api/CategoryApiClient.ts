@@ -1,9 +1,16 @@
 import { injectable } from 'inversify'
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
 import { Category, CategoryPaginate } from '../../../category/domain/Category'
+
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(400).json({ error: err.message })
+}
 
 @injectable()
 export class CategoryApiClient implements CategoryUserInterface {
@@ -24,11 +31,15 @@ export class CategoryApiClient implements CategoryUserInterface {
   ): void {
     this.api.get(
       '/api/catalogue/category/:limit/:startAfter',
-      async function (req: Request, resp: Response) {
-        const { limit, startAfter } = req.params
-        const result = await callback(parseInt(limit), parseInt(startAfter))
-        return resp.status(200).json(result)
-      }
+      async function (req: Request, resp: Response, next: NextFunction) {
+        try {
+          const { limit, startAfter } = req.params
+          const result = await callback(parseInt(limit), parseInt(startAfter))
+          return resp.status(200).json(result)
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
     )
   }
   installCategoryCreate(
@@ -36,11 +47,15 @@ export class CategoryApiClient implements CategoryUserInterface {
   ): void {
     this.api.post(
       '/api/catalogue/category',
-      async function (req: Request, res: Response) {
-        const data = req.body as Category
-        const category = await callback(data)
-        return res.status(200).send(category)
-      }
+      async function (req: Request, res: Response, next: NextFunction) {
+        try {
+          const data = req.body as Category
+          const category = await callback(data)
+          return res.status(200).send(category)
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
     )
   }
 }

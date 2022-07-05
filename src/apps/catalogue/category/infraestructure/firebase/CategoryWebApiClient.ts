@@ -53,7 +53,7 @@ export class CategoryWebApiClient implements CategoryRepository {
 
     const last = snapshot[snapshot.length - 1]
 
-    return { categories: snapshot, startAfter: last.created_at }
+    return { categories: snapshot, startAfter: last ? last.created_at : 0 }
   }
 
   async categoryCreate(category: Category) {
@@ -64,5 +64,17 @@ export class CategoryWebApiClient implements CategoryRepository {
     if (writeTime) {
       return category
     }
+  }
+
+  async categorySearch(name: string): Promise<Category> {
+    const ref = this.firestore.collection('category').where("name", "==", name)
+
+    const snapshot = await ref.get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+
+    return snapshot.docs[0].data() as Category
   }
 }
