@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { BlogRepository } from '../domain/BlogRepository'
-import { Post, PostPaginate } from '../domain/Blog'
+import { Comment, Post, PostPaginate } from '../domain/Blog'
 import TYPES from '../../../../container.types'
 
 @injectable()
@@ -26,7 +26,19 @@ export class BlogUseCases {
     return await this.blogRepository.postDelete(postUid)
   }
 
+  async postUpdate(postUid: string, post: Partial<Post>): Promise<Post> {
+    return await this.blogRepository.postUpdate(postUid, post)
+  }
+
   async postPublish(postUid: string): Promise<Post> {
     return await this.blogRepository.postPublish(postUid)
+  }
+
+  async postAddComment(postUid: string, data: Comment): Promise<any> {
+    const createdAt = new Date().getTime()
+
+    const comment = [{ ...data, created_at: createdAt }]
+
+    return await this.blogRepository.postAddComment(postUid, comment);
   }
 }

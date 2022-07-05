@@ -10,3 +10,5 @@ container.bind(TYPES.Blog).to(BlogUseCases);
 container.bind(TYPES.BlogAdapter).to(BlogAdapter);
 container.bind(TYPES.BlogUserInterface).to(BlogWebApiClientUserInterface);
 container.bind(TYPES.BlogWebApiClient).to(BlogWebApiClient);
+
+container.get<BlogAdapter>(TYPES.BlogAdapter).init();

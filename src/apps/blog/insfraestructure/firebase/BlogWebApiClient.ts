@@ -2,13 +2,14 @@ import { applicationDefault } from 'firebase-admin/app'
 import { injectable } from 'inversify'
 import { BlogRepository } from '../../domain/BlogRepository';
 import dotenv from 'dotenv'
-import { Post, PostPaginate } from '../../domain/Blog';
+import { Comment, Post, PostPaginate } from '../../domain/Blog';
+import admin from 'firebase-admin';
 
 dotenv.config()
 
 @injectable()
 export class BlogWebApiClient implements BlogRepository {
-  firestore
+  firestore: admin.firestore.Firestore;
 
   constructor() {
     const admin = require('firebase-admin')
@@ -74,18 +75,42 @@ export class BlogWebApiClient implements BlogRepository {
 
     const last = snapshot[snapshot.length - 1]
 
-    return { post: snapshot, startAfter: last.created_at }
+    return { post: snapshot, startAfter: last ? last.created_at : 0 }
   }
 
   async postPublish(postUId: string): Promise<Post> {
     const ref = this.firestore.collection('post').doc(postUId);
 
-    const [writeTime] = await ref.update({ is_public: true })
+    const { writeTime } = await ref.update({ is_public: true })
 
     if (writeTime) {
       const snapshot = await ref.get()
 
       return snapshot.data() as Post
+    }
+  }
+
+  async postAddComment(postUid: string, comment: Array<Comment>): Promise<any> {
+    const ref = this.firestore.collection('post').doc(postUid)
+
+    const post = await ref.get()
+
+    const { number_comments } = post.data() as Post
+
+    return await ref.update({ comment: admin.firestore.FieldValue.arrayUnion(...comment), number_comments: number_comments + 1 })
+  }
+
+  async postUpdate(postUid: string, post: Partial<Post>): Promise<Post> {
+    const ref = this.firestore.collection('post').doc(postUid)
+
+    const { writeTime } = await ref.update({ post })
+
+    const snapshot = await ref.get()
+
+    const postUpdated = snapshot.data() as Post
+
+    if (writeTime) {
+      return postUpdated
     }
   }
 }

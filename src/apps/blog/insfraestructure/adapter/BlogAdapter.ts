@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify'
 import { BlogUseCases } from '../../application/BlogUseCases';
 import { BlogUserInterface } from '../ui/BlogUserInterface'
 import TYPES from '../../../../../container.types'
-import { Post } from '../../domain/Blog';
+import { Comment, Post } from '../../domain/Blog';
 
 @injectable()
 export class BlogAdapter {
@@ -25,5 +25,6 @@ export class BlogAdapter {
     this.blogUserInterface.installPostDelete((postUid: string) =>
       this.blogUseCases.postDelete(postUid)
     )
+    this.blogUserInterface.installPostAddComment((postUid: string, comment: Comment) => this.blogUseCases.postAddComment(postUid, comment))
   }
 }

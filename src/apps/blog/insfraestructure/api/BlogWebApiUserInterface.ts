@@ -1,8 +1,15 @@
-import { injectable, inject } from 'inversify'
+import { injectable } from 'inversify'
 import { BlogUserInterface } from '../ui/BlogUserInterface'
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
-import { Post, PostPaginate } from '../../domain/Blog';
+import { Comment, Post, PostPaginate } from '../../domain/Blog';
+
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(400).json({ error: err.message })
+}
 
 @injectable()
 export class BlogWebApiClientUserInterface implements BlogUserInterface {
@@ -20,10 +27,10 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
   installPostCreate(callback: (post: Post) => Promise<Post>): void {
     this.api.post(
       '/api/posts',
-      async function (request: Request, response: Response) {
-        const post = request.body as Post;
+      async function (req: Request, res: Response) {
+        const post = req.body as Post;
         const postCreated = await callback(post)
-        return response.json({ post: postCreated })
+        return res.json({ post: postCreated })
       }
     )
   }
@@ -31,10 +38,10 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
   installPostPublish(callback: (postUid: string) => Promise<Post>): void {
     this.api.post(
       '/api/posts/publish/:postUid',
-      async function (request: Request, response: Response) {
-        const { postUid } = request.params;
+      async function (req: Request, res: Response) {
+        const { postUid } = req.params;
         const postCreated = await callback(postUid)
-        return response.json({ post: postCreated })
+        return res.json({ post: postCreated })
       }
     )
   }
@@ -42,10 +49,10 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
   installPostDelete(callback: (postUid: string) => Promise<Post>): void {
     this.api.delete(
       '/api/posts/:postUid',
-      async function (request: Request, response: Response) {
-        const { postUid } = request.params;
+      async function (req: Request, res: Response) {
+        const { postUid } = req.params;
         const post = await callback(postUid)
-        return response.json(post)
+        return res.json(post)
       }
     )
   }
@@ -53,11 +60,30 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
   installPostPaginate(callback: (limit: number, startAfter: number) => Promise<PostPaginate>): void {
     this.api.get(
       '/api/posts/:limit/:startAfter',
-      async function (request: Request, response: Response) {
-        const { limit, startAfter } = request.params;
-        const post = await callback(parseInt(limit), parseInt(startAfter))
-        return response.json(post)
-      }
+      async function (req: Request, res: Response, next: NextFunction) {
+        try {
+          const { limit, startAfter } = req.params;
+          const post = await callback(parseInt(limit), parseInt(startAfter))
+          return res.json(post)
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
+    )
+  }
+
+  installPostAddComment(callback: (postUid: string, comment: Comment) => Promise<any>) {
+    this.api.post('/api/posts/comment/:postUid',
+      async function (req: Request, res: Response, next: NextFunction) {
+        try {
+          const { postUid } = req.params;
+          const comment = req.body as Comment
+          await callback(postUid, comment);
+          return res.status(201).json()
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
     )
   }
 }
