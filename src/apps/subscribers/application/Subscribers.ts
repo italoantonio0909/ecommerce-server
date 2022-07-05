@@ -15,15 +15,15 @@ export class Subscribers {
     return await this.subscribersRepository.subscribersPaginate(limit, startAfter);
   }
 
-  async subscriberFilter(email: string): Promise<Array<Subscriber>> {
-    return await this.subscribersRepository.subscriberFilter(email)
+  async subscriberSearch(email: string): Promise<Subscriber> {
+    return await this.subscribersRepository.subscriberSearch(email)
   }
 
   async subscriberCreate({ email }: Subscriber): Promise<Subscriber> {
 
-    const subscribers = await this.subscriberFilter(email);
+    const subscribers = await this.subscriberSearch(email);
 
-    if (subscribers.length !== 0) {
+    if (subscribers !== null) {
       throw new SubscriberAlreadyExists()
     }
 

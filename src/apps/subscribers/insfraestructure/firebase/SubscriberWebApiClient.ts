@@ -75,15 +75,14 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     }
   }
 
-  async subscriberFilter(email: string): Promise<Array<Subscriber>> {
+  async subscriberSearch(email: string): Promise<Subscriber> {
     const ref = this.firestore.collection('subscribers').where('email', '==', email.trim());
-    const snapshot = await ref.limit(1).get()
+
+    const snapshot = await ref.get()
     if (snapshot.empty) {
-      return [];
+      return null;
     }
-    return snapshot.docs.map((e: any) => ({
-      id: e.id,
-      ...e.data()
-    }))
+
+    return snapshot.docs[0].data() as Subscriber
   }
 }

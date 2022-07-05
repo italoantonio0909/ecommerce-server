@@ -1,14 +1,20 @@
 import { injectable } from 'inversify'
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { CustomerUserInterface } from '../ui/CustomerUserInterface'
-import { Customer } from '../../domain/Customer'
+import { Customer, CustomerPaginated } from '../../domain/Customer';
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(400).json({ error: err.message })
+}
+
 @injectable()
 export class CustomerWebApiClientUserInterface
-  implements CustomerUserInterface
-{
+  implements CustomerUserInterface {
   static PORT = 3000
   api = express()
 
@@ -21,11 +27,11 @@ export class CustomerWebApiClientUserInterface
     this.api.use(cors({ origin: 'http://localhost:4200' }))
   }
 
-  installCustomerList(
+  installCustomerPaginate(
     callback: (
       maxResults: number,
       pageToken: string
-    ) => Promise<{ customers: Array<Customer>; pageToken: string }>
+    ) => Promise<CustomerPaginated>
   ): void {
     this.api.get(
       '/api/customers/list/:maxResults/:pageToken',
@@ -45,11 +51,15 @@ export class CustomerWebApiClientUserInterface
   ): void {
     this.api.post(
       '/api/customers',
-      async function (req: Request, res: Response) {
-        const customer = req.body as Customer
-        const customerCreated = await callback(customer)
-        return res.status(201).json({ subscribers: customerCreated })
-      }
+      async function (req: Request, res: Response, next: NextFunction) {
+        try {
+          const customer = req.body as Customer
+          const customerCreated = await callback(customer)
+          return res.status(201).json({ subscribers: customerCreated })
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
     )
   }
 

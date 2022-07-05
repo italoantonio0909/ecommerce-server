@@ -6,5 +6,4 @@ export interface SubscribersUserInterface {
   installSubscriberCreate(callback: (subscriber: Subscriber) => Promise<Subscriber>): void
 
   installSubscriberDelete(callback: (id: string) => Promise<Subscriber>): void
-
 }

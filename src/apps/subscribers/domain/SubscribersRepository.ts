@@ -7,5 +7,5 @@ export interface SubscribersRepository {
 
   subscriberDelete(id: string): Promise<Subscriber>
 
-  subscriberFilter(email: string): Promise<Array<Subscriber>>;
+  subscriberSearch(email: string): Promise<Subscriber>;
 }
