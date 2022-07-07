@@ -4,7 +4,7 @@ import { Comment, Post, PostPaginate } from '../domain/Blog'
 import TYPES from '../../../../container.types'
 
 @injectable()
-export class BlogUseCases {
+export class Blogs {
   constructor(
     @inject(TYPES.BlogWebApiClient) private blogRepository: BlogRepository
   ) { }

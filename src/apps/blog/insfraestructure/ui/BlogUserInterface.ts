@@ -1,7 +1,7 @@
 import { Post, PostPaginate, Comment } from '../../domain/Blog';
 
 export interface BlogUserInterface {
-  installPostPaginate(callback: (limit: number, startAfter: number) => Promise<PostPaginate>): void
+  installPostPaginate(callback: (limit: number, next: number) => Promise<PostPaginate>): void
 
   installPostCreate(callback: (post: Post) => Promise<Post>): void
 

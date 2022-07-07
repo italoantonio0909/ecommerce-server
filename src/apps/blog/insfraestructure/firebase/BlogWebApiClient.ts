@@ -70,12 +70,43 @@ export class BlogWebApiClient implements BlogRepository {
     }
   }
 
+  async postQueryPrevious(first: number, limit: number): Promise<number> {
+
+    const ref = this.firestore.collection('post').orderBy('created_at')
+
+    const snapshot = await ref.endBefore(first).limit(limit).get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+
+    const result = snapshot.docs.map((data: any) => ({
+      id: data.id,
+      ...data.data(),
+    })) as Array<Post>
+
+    return result[0].created_at
+  }
+
   async postPaginate(limit: number, startAfter: number): Promise<PostPaginate> {
+    const subscribers = await this.firestore.collection('post').select("_id").get();
+
     const snapshot = startAfter === 0 ? await this.postSimpleQuery(limit) : await this.postPaginateQuery(limit, startAfter);
 
-    const last = snapshot[snapshot.length - 1]
+    const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
 
-    return { post: snapshot, startAfter: last ? last.created_at : 0 }
+    const first = snapshot[0].created_at;
+
+    const previous = await this.postQueryPrevious(first, limit);
+
+    return {
+      count: subscribers.size,
+      limit: limit,
+      next: last,
+      previous: previous,
+      results: snapshot
+    }
+
   }
 
   async postPublish(postUId: string): Promise<Post> {
@@ -97,7 +128,12 @@ export class BlogWebApiClient implements BlogRepository {
 
     const { number_comments } = post.data() as Post
 
-    return await ref.update({ comment: admin.firestore.FieldValue.arrayUnion(...comment), number_comments: number_comments + 1 })
+    const postUpdated = {
+      comment: admin.firestore.FieldValue.arrayUnion(...comment),
+      number_comments: number_comments + 1
+    }
+
+    return await ref.update(postUpdated)
   }
 
   async postUpdate(postUid: string, post: Partial<Post>): Promise<Post> {
