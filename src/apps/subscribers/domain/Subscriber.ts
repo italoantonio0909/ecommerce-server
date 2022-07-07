@@ -8,4 +8,10 @@ export class Subscriber {
   readonly status: SubscriberStatus
 }
 
-export type SubscriberPaginate = { subscribers: Array<Subscriber>, startAfter: number }
+export type SubscriberPaginate = {
+  limit: number,
+  count: number,
+  next: number,
+  previous: number,
+  results: Array<Subscriber>
+}

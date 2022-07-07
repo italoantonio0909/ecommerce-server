@@ -4,7 +4,13 @@ type PostStatus = "active" | "inactive"
 
 type CommentStatus = "active" | "inactive" | "banned"
 
-export type PostPaginate = { post: Array<Post>, startAfter: number }
+export type PostPaginate = {
+  limit: number,
+  count: number,
+  next: number,
+  previous: number,
+  results: Array<Post>
+}
 
 export class Comment {
   readonly created_by: Customer;

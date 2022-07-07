@@ -21,9 +21,9 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   }
 
   async subscriberSimpleQuery(limit: number): Promise<Array<Subscriber>> {
-    const first = this.firestore.collection('subscribers').orderBy('created_at')
+    const ref = this.firestore.collection('subscribers').orderBy('created_at')
 
-    const snapshot = await first.limit(limit).get()
+    const snapshot = await ref.limit(limit).get()
 
     const result = snapshot.docs.map((data: any) => ({
       id: data.id,
@@ -34,9 +34,9 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   }
 
   async subscriberPaginateQuery(limit: number, startAfter: number): Promise<Array<Subscriber>> {
-    const first = this.firestore.collection('subscribers').orderBy('created_at')
+    const ref = this.firestore.collection('subscribers').orderBy('created_at')
 
-    const snapshot = await first.startAfter(startAfter).limit(limit).get()
+    const snapshot = await ref.startAfter(startAfter).limit(limit).get()
 
     const result = snapshot.docs.map((data: any) => ({
       id: data.id,
@@ -46,13 +46,43 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     return result
   }
 
+  async subscriberQueryPrevious(first: number, limit: number): Promise<number> {
+
+    const ref = this.firestore.collection('subscribers').orderBy('created_at')
+
+    const snapshot = await ref.endBefore(first).limit(limit).get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+
+    const result = snapshot.docs.map((data: any) => ({
+      id: data.id,
+      ...data.data(),
+    })) as Array<Subscriber>
+
+    return result[0].created_at
+  }
+
   async subscribersPaginate(limit: number, startAfter: number): Promise<SubscriberPaginate> {
+
+    const subscribers = await this.firestore.collection('subscribers').select("_id").get();
 
     const snapshot = startAfter === 0 ? await this.subscriberSimpleQuery(limit) : await this.subscriberPaginateQuery(limit, startAfter);
 
-    const last = snapshot[snapshot.length - 1]
+    const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
 
-    return { subscribers: snapshot, startAfter: last ? last.created_at : 0 }
+    const first = snapshot[0].created_at;
+
+    const previous = await this.subscriberQueryPrevious(first, limit);
+
+    return {
+      count: subscribers.size,
+      limit: limit,
+      next: last,
+      previous: previous,
+      results: snapshot
+    }
   }
 
   async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {

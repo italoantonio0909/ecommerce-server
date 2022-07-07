@@ -31,10 +31,10 @@ export class SubscriberWebApiClientUserInterface
     callback: (limit: number, startAfter: number) => Promise<SubscriberPaginate>
   ): void {
     this.api.get(
-      '/api/subscribers/:limit/:startAfter',
+      '/api/subscribers/:limit/:next',
       async function (req: Request, resp: Response) {
-        const { limit, startAfter } = req.params
-        const subscribers = await callback(parseInt(limit), parseInt(startAfter))
+        const { limit, next } = req.params
+        const subscribers = await callback(parseInt(limit), parseInt(next))
         return resp.status(200).send(subscribers)
       }
     )
