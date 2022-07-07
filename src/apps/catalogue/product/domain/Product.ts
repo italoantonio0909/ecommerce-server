@@ -1,9 +1,10 @@
-import { Category } from '../../category/domain/Category'
-import { ProductClass } from '../../product-class/ProductClass'
+import { Category } from "../../category/domain/Category"
+import { ProductClass } from "../../product-class/ProductClass"
+export type ProductStructure = "standalone" | "parent" | "child"
 
-type ProductStructure = 'standalone' | 'parent' | 'child'
+export type ProductPaginate = { products: Array<Product>, startAfter: number }
 
-export interface Product {
+export class Product {
   readonly structure: ProductStructure
   readonly is_public: boolean
   readonly parent: Product
@@ -12,7 +13,8 @@ export interface Product {
   readonly product_class: ProductClass
   readonly categories: Array<Category>
   readonly is_discountable: boolean
-  readonly rating: boolean
+  readonly recommended_products: Array<Product>
+  readonly rating: number
   readonly created_at?: number
   readonly modified_at?: number
 }

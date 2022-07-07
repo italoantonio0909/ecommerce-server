@@ -47,11 +47,12 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   }
 
   async subscribersPaginate(limit: number, startAfter: number): Promise<SubscriberPaginate> {
+
     const snapshot = startAfter === 0 ? await this.subscriberSimpleQuery(limit) : await this.subscriberPaginateQuery(limit, startAfter);
 
     const last = snapshot[snapshot.length - 1]
 
-    return { subscribers: snapshot, startAfter: last.created_at }
+    return { subscribers: snapshot, startAfter: last ? last.created_at : 0 }
   }
 
   async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {

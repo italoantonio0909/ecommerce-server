@@ -12,3 +12,6 @@ container
   .bind(TYPES.CustomerUserInterface)
   .to(CustomerWebApiClientUserInterface)
 container.bind(TYPES.CustomerApiClient).to(CustomerWebApiClient)
+
+
+container.get<CustomerAdapter>(TYPES.CustomerAdapter).init()

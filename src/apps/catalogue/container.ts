@@ -10,3 +10,5 @@ container.bind(TYPES.CatalogueCategory).to(CategoryUseCases)
 container.bind(TYPES.CatalogueCategoryAdapter).to(CategoryAdapter)
 container.bind(TYPES.CatalogueCategoryApiClient).to(CategoryWebApiClient)
 container.bind(TYPES.CatalogueCategoryUserInterface).to(CategoryApiClient)
+
+container.get<CategoryAdapter>(TYPES.CatalogueCategoryAdapter).init()
