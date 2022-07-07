@@ -21,7 +21,6 @@ export class CategoryUseCases {
 
   async categoryCreate(data: Category): Promise<Category> {
     const exist = await this.categorySearch(data.name);
-    console.log(exist)
     if (exist !== null) {
       throw new CategoryAlreadyExists()
     }

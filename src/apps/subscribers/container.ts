@@ -12,3 +12,4 @@ container.bind(TYPES.SubscriberApiClient).to(SubscriberWebApiClient)
 container
   .bind(TYPES.SubscriberUserInterface)
   .to(SubscriberWebApiClientUserInterface)
+container.get<SubscriberAdapter>(TYPES.SubscriberAdapter).init();

@@ -1,9 +1,9 @@
-import { Product } from './Product'
+import { Product, ProductPaginate } from './Product';
 
 export interface ProductRepository {
-  productPaginate(limit: number, startAfter: number): Promise<{ products: Array<Product>, startAfter: number }>
+  productPaginate(limit: number, startAfter: number): Promise<ProductPaginate>
 
   productCreate(product: Product): Promise<Product>
 
-  productDetail(id: string): Promise<Product>
+  productDetail(uid: string): Promise<Product>
 }
