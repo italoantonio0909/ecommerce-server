@@ -1,30 +1,30 @@
 import { inject, injectable } from 'inversify'
 import TYPES from '../../../../../container.types'
-import { CustomerUseCases } from '../../application/CustomerUseCases'
+import { Customers } from '../../application/Customers'
 import { CustomerUserInterface } from '../ui/CustomerUserInterface'
 import { Customer } from '../../domain/Customer'
 
 @injectable()
 export class CustomerAdapter {
   constructor(
-    @inject(TYPES.Customer) private customerUseCases: CustomerUseCases,
+    @inject(TYPES.Customer) private customers: Customers,
     @inject(TYPES.CustomerUserInterface)
     private customerUserInterface: CustomerUserInterface
   ) { }
 
   init() {
     this.customerUserInterface.installCustomerByUid((uid: string) =>
-      this.customerUseCases.customerByUid(uid)
+      this.customers.customerByUid(uid)
     )
     this.customerUserInterface.installCustomerCreate((customer: Customer) =>
-      this.customerUseCases.customerCreate(customer)
+      this.customers.customerCreate(customer)
     )
     this.customerUserInterface.installCustomerDelete((uid: string) =>
-      this.customerUseCases.customerDelete(uid)
+      this.customers.customerDelete(uid)
     )
     this.customerUserInterface.installCustomerPaginate(
       (maxResults: number, pageToken: string) =>
-        this.customerUseCases.customersPaginate(maxResults, pageToken)
+        this.customers.customersPaginate(maxResults, pageToken)
     )
   }
 }
