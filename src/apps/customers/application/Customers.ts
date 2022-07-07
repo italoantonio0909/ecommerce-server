@@ -4,7 +4,7 @@ import { Customer, CustomerPaginated } from '../domain/Customer';
 import { CustomerRepository } from '../domain/CustomerRepository'
 
 @injectable()
-export class CustomerUseCases {
+export class Customers {
   constructor(
     @inject(TYPES.CustomerApiClient)
     private customerRepository: CustomerRepository

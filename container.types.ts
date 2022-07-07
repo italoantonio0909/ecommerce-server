@@ -29,6 +29,11 @@ const TYPES = {
   CatalogueProductAdapter: Symbol('CatalogueProductAdapter'),
   CatalogueProductUserInterface: Symbol('CatalogueProductUserInterface'),
   CatalogueProductApiClient: Symbol('CatalogueProductApiClient'),
+
+  Basket: Symbol('Basket'),
+  BasketAdapter: Symbol('BasketAdapter'),
+  BasketUserInterface: Symbol('BasketUserInterface'),
+  BasketApiClient: Symbol('BasketApiClient')
 }
 
 export default TYPES

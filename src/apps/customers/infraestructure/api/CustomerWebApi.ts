@@ -19,8 +19,8 @@ export class CustomerWebApiClientUserInterface
   api = express()
 
   constructor() {
-    this.api.listen(8000, () => {
-      console.log(`Customer listening on port 8000`)
+    this.api.listen(CustomerWebApiClientUserInterface.PORT, () => {
+      console.log(`Customers listening on port ${CustomerWebApiClientUserInterface.PORT}`)
     })
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
@@ -53,9 +53,9 @@ export class CustomerWebApiClientUserInterface
       '/api/customers',
       async function (req: Request, res: Response, next: NextFunction) {
         try {
-          const customer = req.body as Customer
-          const customerCreated = await callback(customer)
-          return res.status(201).json({ subscribers: customerCreated })
+          const data = req.body as Customer
+          const customer = await callback(data)
+          return res.status(201).json({ customer })
         } catch (error) {
           next(error)
         }
