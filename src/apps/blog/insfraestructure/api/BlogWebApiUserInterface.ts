@@ -3,6 +3,7 @@ import { BlogUserInterface } from '../ui/BlogUserInterface'
 import express, { NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import { Comment, Post, PostPaginate } from '../../domain/Blog';
+import cors from 'cors';
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
@@ -22,6 +23,7 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
     })
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
+    this.api.use(cors({ origin: 'http://localhost:4200' }))
   }
 
   installPostCreate(callback: (post: Post) => Promise<Post>): void {
