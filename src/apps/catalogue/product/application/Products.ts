@@ -2,14 +2,7 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../../../../../container.types';
 import { Product, ProductPaginate } from '../domain/Product';
 import { ProductRepository } from '../domain/ProductRepository';
-import {
-    ProductTitleRequired,
-    ProductClassProductRequired,
-    ProductNotMustHaveParent,
-    ProductChildMustHaveParent,
-    ProductChildNotMustProductClass,
-    ProductStructureInvalid
-} from '../domain/exceptions';
+import { ProductTitleRequired, ProductProductClassRequired, ProductShouldNotHaveParent, ProductChildShouldHaveParent, ProductChildNotMustProductClass, ProductChildShouldNotHaveCategory, ProductStructureShouldValid } from '../domain/exceptions/index';
 
 @injectable()
 export class Products {
@@ -24,25 +17,33 @@ export class Products {
             throw new ProductTitleRequired()
         }
         if (!product_class) {
-            throw new ProductClassProductRequired()
+            throw new ProductProductClassRequired()
         }
         if (parent) {
-            throw new ProductNotMustHaveParent()
+            throw new ProductShouldNotHaveParent()
         }
     }
 
     async productCleanParent(product: Product) {
-        this.productCleanStandlone(product)
+        await this.productCleanStandlone(product)
     }
 
     async productCleanChild(product: Product) {
         const { parent, product_class } = product;
         if (!parent) {
-            throw new ProductChildMustHaveParent();
+            throw new ProductChildShouldHaveParent();
         }
 
         if (product_class) {
             throw new ProductChildNotMustProductClass();
+        }
+
+        if (parent && parent.structure !== "parent") {
+            throw new ProductChildShouldHaveParent();
+        }
+
+        if (product.categories && product.categories.length !== 0) {
+            throw new ProductChildShouldNotHaveCategory();
         }
     }
 
@@ -71,10 +72,12 @@ export class Products {
         Because the validation logic is quite complex, validation is delegated
         to the sub method appropriate for the product's structure.
         */
+
         const structure = ["standalone", "parent", "child"]
-        const isValidStruct = String(product.structure) in structure
-        if (!isValidStruct) {
-            throw new ProductStructureInvalid();
+        const validStruct = structure.includes(product.structure)
+
+        if (!validStruct) {
+            throw new ProductStructureShouldValid();
         }
 
         if (product.structure === "child") {

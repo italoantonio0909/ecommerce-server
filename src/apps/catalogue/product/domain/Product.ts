@@ -1,5 +1,5 @@
 import { Category } from "../../category/domain/Category"
-import { ProductClass } from "../../product-class/ProductClass"
+import { ProductClass } from "../../product-class/domain/ProductClass"
 export type ProductStructure = "standalone" | "parent" | "child"
 
 export type ProductPaginate = {

@@ -14,7 +14,7 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
 
 @injectable()
 export class ProductWebApiUserInterface implements ProductUserInterface {
-    static PORT = 8000
+    static PORT = 3000
     api = express()
 
     constructor() {
