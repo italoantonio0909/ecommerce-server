@@ -19,5 +19,7 @@ export class Productdapter {
         this.productUserInterface.installProductCreate(
             (product: Product) => this.product.productCreate(product)
         )
+        this.productUserInterface.installProductDetail((uid: string) => this.product.productDetail(uid))
+        this.productUserInterface.installProductUpdate((uid: string, product: Partial<Product>) => this.product.productUpdate(uid, product))
     }
 }

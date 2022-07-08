@@ -5,7 +5,7 @@ import { CategoryRepository } from '../domain/CategoryRepository';
 import { CategoryAlreadyExists } from '../domain/CategoryAlreadyExists';
 
 @injectable()
-export class CategoryUseCases {
+export class Categories {
   constructor(
     @inject(TYPES.CatalogueCategoryApiClient)
     private readonly categoryRepository: CategoryRepository

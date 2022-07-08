@@ -7,4 +7,5 @@ export interface ProductUserInterface {
 
     installProductDetail(callback: (uid: string) => Promise<Product>): void
 
+    installProductUpdate(callback: (uid: string, product: Partial<Product>) => Promise<Product>): void
 }

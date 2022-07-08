@@ -1,14 +1,26 @@
 import { Container } from 'inversify'
 import TYPES from '../../../container.types'
 import { CategoryAdapter } from './category/infraestructure/adapter/CategoryAdapter'
-import { CategoryUseCases } from './category/application/CategoryUseCases';
+import { Categories } from './category/application/Categories';
 import { CategoryWebApiClient } from './category/infraestructure/firebase/CategoryWebApiClient';
 import { CategoryApiClient } from './category/infraestructure/api/CategoryApiClient';
+import { Productdapter } from './product/infraestructure/adapter/ProductAdapter';
+import { Products } from './product/application/Products';
+import { ProductWebApiUserInterface } from './product/infraestructure/api/ProductWeApiUserInterface';
+import { ProductWebApiClient } from './product/infraestructure/firebase/ProductWebApiClient';
 
 export const container = new Container()
-container.bind(TYPES.CatalogueCategory).to(CategoryUseCases)
+
+container.bind(TYPES.CatalogueCategory).to(Categories)
 container.bind(TYPES.CatalogueCategoryAdapter).to(CategoryAdapter)
 container.bind(TYPES.CatalogueCategoryApiClient).to(CategoryWebApiClient)
 container.bind(TYPES.CatalogueCategoryUserInterface).to(CategoryApiClient)
 
-container.get<CategoryAdapter>(TYPES.CatalogueCategoryAdapter).init()
+container.bind(TYPES.CatalogueProduct).to(Products)
+container.bind(TYPES.CatalogueProductUserInterface).to(ProductWebApiUserInterface)
+container.bind(TYPES.CatalogueProductApiClient).to(ProductWebApiClient)
+container.bind(TYPES.CatalogueProductAdapter).to(Productdapter)
+
+container.get<Productdapter>(TYPES.CatalogueProductAdapter).init();
+
+// container.get<CategoryAdapter>(TYPES.CatalogueCategoryAdapter).init()
