@@ -66,12 +66,43 @@ export class ProductWebApiClient implements ProductRepository {
         return result
     }
 
+    async productQueryPrevious(first: number, limit: number): Promise<number> {
+
+        const ref = this.firestore.collection('product').orderBy('created_at')
+
+        const snapshot = await ref.endBefore(first).limit(limit).get();
+
+        if (snapshot.empty) {
+            return null;
+        }
+
+        const result = snapshot.docs.map((data: any) => ({
+            id: data.id,
+            ...data.data(),
+        })) as Array<Product>
+
+        return result[0].created_at
+    }
+
     async productPaginate(limit: number, startAfter: number): Promise<ProductPaginate> {
+
+        const products = await this.firestore.collection('product').select("_id").get();
+
         const snapshot = startAfter === 0 ? await this.productSimpleQuery(limit) : await this.productPaginateQuery(limit, startAfter);
 
-        const last = snapshot[snapshot.length - 1]
+        const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
 
-        return { products: snapshot, startAfter: last ? last.created_at : 0 }
+        const first = snapshot[0].created_at;
+
+        const previous = await this.productQueryPrevious(first, limit);
+
+        return {
+            count: products.size,
+            limit: limit,
+            next: last,
+            previous: previous,
+            results: snapshot
+        }
     }
 
     async productUpdate(uid: string, product: Product): Promise<Product> {

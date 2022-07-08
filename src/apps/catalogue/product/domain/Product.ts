@@ -2,7 +2,13 @@ import { Category } from "../../category/domain/Category"
 import { ProductClass } from "../../product-class/ProductClass"
 export type ProductStructure = "standalone" | "parent" | "child"
 
-export type ProductPaginate = { products: Array<Product>, startAfter: number }
+export type ProductPaginate = {
+  limit: number,
+  count: number,
+  next: number,
+  previous: number,
+  results: Array<Product>
+}
 
 export class Product {
   readonly structure: ProductStructure

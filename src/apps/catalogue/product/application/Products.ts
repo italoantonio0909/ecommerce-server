@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import TYPES from '../../../../../container.types';
-import { Product } from '../domain/Product';
+import { Product, ProductPaginate } from '../domain/Product';
 import { ProductRepository } from '../domain/ProductRepository';
 import {
     ProductTitleRequired,
@@ -105,7 +105,7 @@ export class Products {
         return await this.productRepository.productDetail(uid)
     }
 
-    async productPaginate(limit: number, startAfter: number): Promise<{ products: Array<Product>, startAfter: number }> {
+    async productPaginate(limit: number, startAfter: number): Promise<ProductPaginate> {
         return await this.productRepository.productPaginate(limit, startAfter)
     }
 
