@@ -1,4 +1,4 @@
-import { id, inject, injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import TYPES from '../../../../../container.types';
 import { Product } from '../domain/Product';
 import { ProductRepository } from '../domain/ProductRepository';
@@ -9,7 +9,7 @@ import {
     ProductChildMustHaveParent,
     ProductChildNotMustProductClass,
     ProductStructureInvalid
-} from '../domain/exceptions/Product';
+} from '../domain/exceptions';
 
 @injectable()
 export class Products {
@@ -107,5 +107,9 @@ export class Products {
 
     async productPaginate(limit: number, startAfter: number): Promise<{ products: Array<Product>, startAfter: number }> {
         return await this.productRepository.productPaginate(limit, startAfter)
+    }
+
+    async productUpdate(uid: string, product: Partial<Product>): Promise<Product> {
+        return await this.productRepository.productUpdate(uid, product)
     }
 }

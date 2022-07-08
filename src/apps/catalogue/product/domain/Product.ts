@@ -10,6 +10,8 @@ export class Product {
   readonly parent: Product
   readonly title: string
   readonly description: string
+  readonly meta_title: string;
+  readonly meta_description: string;
   readonly product_class: ProductClass
   readonly categories: Array<Category>
   readonly is_discountable: boolean

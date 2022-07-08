@@ -6,4 +6,6 @@ export interface ProductRepository {
   productCreate(product: Product): Promise<Product>
 
   productDetail(uid: string): Promise<Product>
+
+  productUpdate(uid: string, product: Partial<Product>): Promise<Product>
 }

@@ -73,4 +73,14 @@ export class ProductWebApiClient implements ProductRepository {
 
         return { products: snapshot, startAfter: last ? last.created_at : 0 }
     }
+
+    async productUpdate(uid: string, product: Product): Promise<Product> {
+        const ref = this.firestore.collection('product').doc(uid)
+
+        const snapshot = await ref.update(product)
+
+        const productUpdate = await ref.get()
+
+        return productUpdate.data() as Product
+    }
 }

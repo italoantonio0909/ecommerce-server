@@ -61,4 +61,17 @@ export class ProductWebApiUserInterface implements ProductUserInterface {
             }
         }, errorHandler)
     }
+
+    installProductUpdate(callback: (uid: string, product: Partial<Product>) => Promise<Product>) {
+        this.api.post('/api/product/update/:uid', async function (req: Request, res: Response, next: NextFunction) {
+            try {
+                const { uid } = req.params
+                const data = req.body as Partial<Product>
+                const product = await callback(uid, data)
+                return res.status(201).json(product);
+            } catch (error) {
+                next(error)
+            }
+        }, errorHandler)
+    }
 }
