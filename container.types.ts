@@ -33,7 +33,12 @@ const TYPES = {
   Basket: Symbol('Basket'),
   BasketAdapter: Symbol('BasketAdapter'),
   BasketUserInterface: Symbol('BasketUserInterface'),
-  BasketApiClient: Symbol('BasketApiClient')
+  BasketApiClient: Symbol('BasketApiClient'),
+
+  Partner: Symbol('Partner'),
+  PartnerAdapter: Symbol('PartnerAdapter'),
+  PartnerUserInterface: Symbol('PartnerUserInterface'),
+  PartnerApiClient: Symbol('PartnerApiClient')
 }
 
 export default TYPES
