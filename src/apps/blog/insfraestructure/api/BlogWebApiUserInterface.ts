@@ -74,6 +74,21 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
     )
   }
 
+  installPostRetrieveDetail(callback: (postUid: string) => Promise<Post>): void {
+    this.api.get(
+      '/api/posts/retrieve-detail/:postUid',
+      async function (req: Request, res: Response, next: NextFunction) {
+        try {
+          const { postUid } = req.params;
+          const post = await callback(postUid)
+          return res.json(post)
+        } catch (error) {
+          next(error)
+        }
+      }, errorHandler
+    )
+  }
+
   installPostAddComment(callback: (postUid: string, comment: Comment) => Promise<any>) {
     this.api.post('/api/posts/comment/:postUid',
       async function (req: Request, res: Response, next: NextFunction) {

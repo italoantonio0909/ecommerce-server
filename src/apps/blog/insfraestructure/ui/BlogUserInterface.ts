@@ -3,6 +3,8 @@ import { Post, PostPaginate, Comment } from '../../domain/Blog';
 export interface BlogUserInterface {
   installPostPaginate(callback: (limit: number, next: number) => Promise<PostPaginate>): void
 
+  installPostRetrieveDetail(callback: (postUid: string) => Promise<Post>): void
+
   installPostCreate(callback: (post: Post) => Promise<Post>): void
 
   installPostDelete(callback: (postUid: string) => Promise<Post>): void
