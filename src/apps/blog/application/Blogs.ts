@@ -31,7 +31,16 @@ export class Blogs {
   }
 
   async postPublish(postUid: string): Promise<Post> {
-    return await this.blogRepository.postPublish(postUid)
+    const post: Partial<Post> = {
+      publish_at: new Date().getTime(),
+      is_public: true
+    }
+
+    return await this.blogRepository.postPublish(postUid, post)
+  }
+
+  async postRetrieveDetail(postUid: string): Promise<Post> {
+    return await this.blogRepository.postRetrieveDetail(postUid)
   }
 
   async postAddComment(postUid: string, data: Comment): Promise<any> {

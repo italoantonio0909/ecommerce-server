@@ -3,13 +3,15 @@ import { Comment, Post, PostPaginate } from './Blog';
 export interface BlogRepository {
   postPaginate(limit: number, startAfter: number): Promise<PostPaginate>
 
-  postCreate(post: Post): Promise<Post>
+  postRetrieveDetail(postUid: string): Promise<Post>;
 
-  postUpdate(postUid: string, post: Partial<Post>): Promise<Post>
+  postCreate(post: Post): Promise<Post>;
 
-  postPublish(postUId: string): Promise<Post>
+  postUpdate(postUid: string, post: Partial<Post>): Promise<Post>;
 
-  postDelete(postUid: string): Promise<Post>
+  postPublish(postUId: string, post: Partial<Post>): Promise<Post>;
 
-  postAddComment(postUid: string, comment: Array<Comment>): Promise<any>
+  postDelete(postUid: string): Promise<Post>;
+
+  postAddComment(postUid: string, comment: Array<Comment>): Promise<any>;
 }

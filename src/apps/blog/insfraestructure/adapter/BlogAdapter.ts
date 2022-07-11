@@ -25,6 +25,9 @@ export class BlogAdapter {
     this.blogUserInterface.installPostDelete((postUid: string) =>
       this.blogs.postDelete(postUid)
     )
-    this.blogUserInterface.installPostAddComment((postUid: string, comment: Comment) => this.blogs.postAddComment(postUid, comment))
+    this.blogUserInterface.installPostRetrieveDetail((postUid: string) =>
+      this.blogs.postRetrieveDetail(postUid))
+    this.blogUserInterface.installPostAddComment((postUid: string, comment: Comment) =>
+      this.blogs.postAddComment(postUid, comment))
   }
 }

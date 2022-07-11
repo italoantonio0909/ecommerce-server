@@ -48,6 +48,44 @@ export class BlogWebApiClient implements BlogRepository {
     return result
   }
 
+  async postQueryPrevious(first: number, limit: number): Promise<number> {
+
+    const ref = this.firestore.collection('post').orderBy('created_at')
+
+    const snapshot = await ref.endBefore(first).limit(limit).get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+
+    const result = snapshot.docs.map((data: any) => ({
+      id: data.id,
+      ...data.data(),
+    })) as Array<Post>
+
+    return result[0].created_at
+  }
+
+  async postPaginate(limit: number, startAfter: number): Promise<PostPaginate> {
+    const subscribers = await this.firestore.collection('post').select("_id").where("is_public", "==", true).get();
+
+    const snapshot = startAfter === 0 ? await this.postSimpleQuery(limit) : await this.postPaginateQuery(limit, startAfter);
+
+    const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
+
+    const first = snapshot[0].created_at;
+
+    const previous = await this.postQueryPrevious(first, limit);
+
+    return {
+      count: subscribers.size,
+      limit: limit,
+      next: last,
+      previous: previous,
+      results: snapshot
+    }
+
+  }
 
   async postCreate(post: Post): Promise<Post> {
     const ref = this.firestore.collection('post').doc();
@@ -70,49 +108,10 @@ export class BlogWebApiClient implements BlogRepository {
     }
   }
 
-  async postQueryPrevious(first: number, limit: number): Promise<number> {
-
-    const ref = this.firestore.collection('post').orderBy('created_at')
-
-    const snapshot = await ref.endBefore(first).limit(limit).get();
-
-    if (snapshot.empty) {
-      return null;
-    }
-
-    const result = snapshot.docs.map((data: any) => ({
-      id: data.id,
-      ...data.data(),
-    })) as Array<Post>
-
-    return result[0].created_at
-  }
-
-  async postPaginate(limit: number, startAfter: number): Promise<PostPaginate> {
-    const subscribers = await this.firestore.collection('post').select("_id").get();
-
-    const snapshot = startAfter === 0 ? await this.postSimpleQuery(limit) : await this.postPaginateQuery(limit, startAfter);
-
-    const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
-
-    const first = snapshot[0].created_at;
-
-    const previous = await this.postQueryPrevious(first, limit);
-
-    return {
-      count: subscribers.size,
-      limit: limit,
-      next: last,
-      previous: previous,
-      results: snapshot
-    }
-
-  }
-
-  async postPublish(postUId: string): Promise<Post> {
+  async postPublish(postUId: string, post: Partial<Post>): Promise<Post> {
     const ref = this.firestore.collection('post').doc(postUId);
 
-    const { writeTime } = await ref.update({ is_public: true })
+    const { writeTime } = await ref.update(post)
 
     if (writeTime) {
       const snapshot = await ref.get()
@@ -147,6 +146,16 @@ export class BlogWebApiClient implements BlogRepository {
 
     if (writeTime) {
       return postUpdated
+    }
+  }
+
+  async postRetrieveDetail(postUid: string): Promise<Post> {
+    const ref = this.firestore.collection('post').doc(postUid);
+
+    const snapshot = await ref.get();
+
+    if (snapshot.exists) {
+      return snapshot.data() as Post;
     }
   }
 }
