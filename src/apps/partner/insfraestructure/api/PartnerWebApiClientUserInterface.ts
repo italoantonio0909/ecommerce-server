@@ -37,7 +37,7 @@ export class PartnerWebApiClientUserInterface
                 try {
                     const partner = req.body as Partner;
                     const partnerData = await callback(partner);
-                    return resp.status(200).send(partnerData)
+                    return resp.status(201).send(partnerData)
                 } catch (error) {
                     next(error)
                 }

@@ -22,6 +22,10 @@ export class Partners {
     }
 
     async stockRecordCreate(stockRecord: StockRecord): Promise<StockRecord> {
+        const data: StockRecord = {
+            ...stockRecord,
+            created_at: new Date().getTime()
+        }
         return await this.partnerRepository.stockRecordCreate(stockRecord)
     }
 
