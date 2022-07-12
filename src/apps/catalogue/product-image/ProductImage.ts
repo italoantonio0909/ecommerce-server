@@ -1,8 +1,8 @@
-import { Product } from '../product/Product'
+import { Product } from '../product/domain/Product';
 
 export class ProductImage {
-  product: Product
-  original: string
-  caption: string
-  date_created: number
+  readonly product: Product;
+  readonly original: string;
+  readonly caption: string;
+  readonly date_created: number;
 }
