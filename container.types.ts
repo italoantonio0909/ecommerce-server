@@ -30,6 +30,11 @@ const TYPES = {
   CatalogueProductUserInterface: Symbol('CatalogueProductUserInterface'),
   CatalogueProductApiClient: Symbol('CatalogueProductApiClient'),
 
+  CatalogueProductClass: Symbol('CatalogueProductClass'),
+  CatalogueProductClassAdapter: Symbol('CatalogueProductClassAdapter'),
+  CatalogueProductClassUserInterface: Symbol('CatalogueProductClassUserInterface'),
+  CatalogueProductClassApiClient: Symbol('CatalogueProductClassApiClient'),
+
   Basket: Symbol('Basket'),
   BasketAdapter: Symbol('BasketAdapter'),
   BasketUserInterface: Symbol('BasketUserInterface'),

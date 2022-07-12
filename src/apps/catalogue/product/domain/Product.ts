@@ -11,18 +11,18 @@ export type ProductPaginate = {
 }
 
 export class Product {
-  readonly structure: ProductStructure
-  readonly is_public: boolean
-  readonly parent: Product
-  readonly title: string
-  readonly description: string
+  readonly structure: ProductStructure;
+  readonly is_public: boolean;
+  readonly parent: Product;
+  readonly title: string;
+  readonly description: string;
   readonly meta_title: string;
   readonly meta_description: string;
-  readonly product_class: ProductClass
-  readonly categories: Array<Category>
-  readonly is_discountable: boolean
-  readonly recommended_products: Array<Product>
-  readonly rating: number
-  readonly created_at?: number
-  readonly modified_at?: number
+  readonly product_class: ProductClass;
+  readonly categories: Array<Category>;
+  readonly is_discountable: boolean;
+  readonly recommended_products: Array<Product>;
+  readonly rating: number;
+  readonly created_at?: number;
+  readonly modified_at?: number;
 }

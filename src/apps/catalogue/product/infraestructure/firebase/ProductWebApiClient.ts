@@ -105,7 +105,7 @@ export class ProductWebApiClient implements ProductRepository {
         }
     }
 
-    async productUpdate(uid: string, product: Product): Promise<Product> {
+    async productUpdate(uid: string, product: Partial<Product>): Promise<Product> {
         const ref = this.firestore.collection('product').doc(uid)
 
         const snapshot = await ref.update(product)
