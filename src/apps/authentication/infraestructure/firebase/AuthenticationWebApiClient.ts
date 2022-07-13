@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { injectable } from 'inversify'
 import { applicationDefault } from 'firebase-admin/app'
-import { getAuth, UserRecord, Auth } from 'firebase-admin/auth'
+import { getAuth, Auth } from 'firebase-admin/auth'
 import { AuthCredential } from '../../domain/AuthCredential'
 import { AuthenticationRepository } from '../../domain/AuthRepository'
 
@@ -22,7 +22,8 @@ export class AuthenticationWebApiClient implements AuthenticationRepository {
   }
 
   async signIn({ email, password }: AuthCredential): Promise<any> {
-
+    const user = getAuth
+    console.log(user)
   }
 
   async signOut(): Promise<boolean> {
