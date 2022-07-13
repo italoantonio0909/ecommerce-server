@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
-import TYPES from '../../../../../container.types';
-import { Product, ProductPaginate } from '../domain/Product';
-import { ProductRepository } from '../domain/ProductRepository';
-import { ProductTitleRequired, ProductProductClassRequired, ProductShouldNotHaveParent, ProductChildShouldHaveParent, ProductChildNotMustProductClass, ProductChildShouldNotHaveCategory, ProductStructureShouldValid } from '../domain/exceptions/index';
+import TYPES from '../../../../../../container.types';
+import { Product } from '../../domain/Product';
+import { ProductRepository } from '../../domain/ProductRepository';
+import { ProductTitleRequired, ProductProductClassRequired, ProductShouldNotHaveParent, ProductChildShouldHaveParent, ProductChildNotMustProductClass, ProductChildShouldNotHaveCategory, ProductStructureShouldValid } from '../../domain/exceptions/index';
 
 @injectable()
-export class Products {
+export class ProductCreate {
     constructor(
-        @inject(TYPES.CatalogueProductApiClient)
+        @inject(TYPES.ProductApiClient)
         private readonly productRepository: ProductRepository
     ) { }
 
@@ -93,7 +93,7 @@ export class Products {
         }
     }
 
-    async productCreate(product: Product): Promise<Product> {
+    async create(product: Product): Promise<Product> {
 
         await this.productValidate(product)
 
@@ -102,17 +102,5 @@ export class Products {
             created_at: new Date().getTime(),
         }
         return await this.productRepository.productCreate(data)
-    }
-
-    async productDetail(uid: string): Promise<Product> {
-        return await this.productRepository.productDetail(uid)
-    }
-
-    async productPaginate(limit: number, startAfter: number): Promise<ProductPaginate> {
-        return await this.productRepository.productPaginate(limit, startAfter)
-    }
-
-    async productUpdate(uid: string, product: Partial<Product>): Promise<Product> {
-        return await this.productRepository.productUpdate(uid, product)
     }
 }

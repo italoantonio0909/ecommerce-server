@@ -68,6 +68,19 @@ export class SubscriberWebApiClientUserInterface
         return resp.status(201).send(subscriberDelete)
       }
     )
+  }
 
+  installSubscriberUpdate(
+    callback: (uid: string, subscriber: Partial<Subscriber>) => Promise<Subscriber>
+  ) {
+    this.api.put(
+      '/api/subscribers/:id',
+      async function (req: Request, resp: Response) {
+        const { id } = req.params
+        const data = req.body as Partial<Subscriber>
+        const subscriberDelete = await callback(id, data)
+        return resp.status(201).send(subscriberDelete)
+      }
+    )
   }
 }
