@@ -17,7 +17,8 @@ const TYPES = {
   CustomerApiClient: Symbol('CustomerApiClient'),
   CustomerUserInterface: Symbol('CustomerUserInterface'),
 
-  Authentication: Symbol('Authentication'),
+  AuthenticationSignIn: Symbol('AuthenticationSignIn'),
+  AuthenticationSignOut: Symbol('AuthenticationSignOut'),
   AuthenticationAdapter: Symbol('AuthenticationAdapter'),
   AuthenticationUserInterface: Symbol('AuthenticationUserInterface'),
   AuthenticationApiClient: Symbol('AuthenticationApiClient'),
