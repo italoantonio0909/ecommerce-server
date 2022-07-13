@@ -16,7 +16,7 @@ container.bind(TYPES.SubscriberPaginate).to(SubscribersPaginate)
 container.bind(TYPES.SubscriberUpdate).to(SubscriberUpdate)
 container.bind(TYPES.SubscriberDelete).to(SubscriberDelete)
 container.bind(TYPES.SubscriberAdapter).to(SubscriberAdapter)
-container.bind(TYPES.SubscriberApiClient).to(SubscriberWebApiClient)
+container.bind(TYPES.SubscriberApiClient).to(SubscriberWebApiClient).inSingletonScope()
 container
   .bind(TYPES.SubscriberUserInterface)
   .to(SubscriberWebApiClientUserInterface)
