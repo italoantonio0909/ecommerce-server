@@ -9,7 +9,10 @@ const TYPES = {
   SubscriberUserInterface: Symbol('SubscriberUserInterface'),
   SubscriberApiClient: Symbol('SubscriberApiClient'),
 
-  Customer: Symbol('Customer'),
+  CustomerCreate: Symbol('CustomerCreate'),
+  CustomerPaginate: Symbol('CustomerPaginate'),
+  CustomerFind: Symbol('CustomerFind'),
+  CustomerDelete: Symbol('CustomerDelete'),
   CustomerAdapter: Symbol('CustomerAdapter'),
   CustomerApiClient: Symbol('CustomerApiClient'),
   CustomerUserInterface: Symbol('CustomerUserInterface'),

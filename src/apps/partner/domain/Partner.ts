@@ -1,10 +1,10 @@
-import { Customers } from '../../customers/application/Customers';
 import { Product } from '../../catalogue/product/domain/Product';
+import { Customer } from '../../customers/domain/Customer';
 
 export class Partner {
     readonly code: string;
     readonly name: string;
-    readonly users: Array<Customers>;
+    readonly users: Array<Customer>;
     readonly modified_at: number;
     readonly created_at: number;
 }
