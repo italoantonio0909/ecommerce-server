@@ -32,10 +32,13 @@ const TYPES = {
   CatalogueCategoryUserInterface: Symbol('CatalogueCategoryUserInterface'),
   CatalogueCategoryApiClient: Symbol('CatalogueCategoryApiClient'),
 
-  CatalogueProduct: Symbol('CatalogueProduct'),
-  CatalogueProductAdapter: Symbol('CatalogueProductAdapter'),
-  CatalogueProductUserInterface: Symbol('CatalogueProductUserInterface'),
-  CatalogueProductApiClient: Symbol('CatalogueProductApiClient'),
+  ProductCreate: Symbol('ProductCreate'),
+  ProductPaginate: Symbol('ProductPaginate'),
+  ProductDetail: Symbol('ProductDetail'),
+  ProductUpdate: Symbol('ProductUpdate'),
+  ProductAdapter: Symbol('ProductAdapter'),
+  ProductUserInterface: Symbol('ProductUserInterface'),
+  ProductApiClient: Symbol('ProductApiClient'),
 
   CatalogueProductClass: Symbol('CatalogueProductClass'),
   CatalogueProductClassAdapter: Symbol('CatalogueProductClassAdapter'),
