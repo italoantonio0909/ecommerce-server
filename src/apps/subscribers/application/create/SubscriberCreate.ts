@@ -11,7 +11,7 @@ export class SubscriberCreate {
         private subscribersRepository: SubscribersRepository
     ) { }
 
-    async subscriberCreate({ email }: Subscriber): Promise<Subscriber> {
+    async create({ email }: Subscriber): Promise<Subscriber> {
 
         const subscribers = await this.subscribersRepository.subscriberSearch(email);
 

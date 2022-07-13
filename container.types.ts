@@ -1,7 +1,11 @@
 const TYPES = {
   SubscribersRepository: Symbol('SubscribersRepository'),
   SubscriberAdapter: Symbol('SubscriberAdapter'),
-  Subscribers: Symbol('Subscribers'),
+  SubscriberCreate: Symbol('SubscriberCreate'),
+  SubscriberSearch: Symbol('SubscriberSearch'),
+  SubscriberDelete: Symbol('SubscriberDelete'),
+  SubscriberPaginate: Symbol('SubscriberPaginate'),
+  SubscriberUpdate: Symbol('SubscriberUpdate'),
   SubscriberUserInterface: Symbol('SubscriberUserInterface'),
   SubscriberApiClient: Symbol('SubscriberApiClient'),
 

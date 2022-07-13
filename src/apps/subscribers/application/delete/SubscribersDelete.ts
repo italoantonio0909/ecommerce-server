@@ -1,16 +1,16 @@
 import { inject, injectable } from 'inversify'
-import { SubscribersRepository } from '../../domain/SubscribersRepository';
 import TYPES from '../../../../../container.types';
+import { SubscribersRepository } from '../../domain/SubscribersRepository';
 import { Subscriber } from '../../domain/Subscriber';
 
 @injectable()
-export class SubscriberSearch {
+export class SubscriberDelete {
     constructor(
         @inject(TYPES.SubscriberApiClient)
         private subscribersRepository: SubscribersRepository
     ) { }
 
-    async search(email: string): Promise<Subscriber> {
-        return await this.subscribersRepository.subscriberSearch(email)
+    async delete(uid: string): Promise<Subscriber> {
+        return await this.subscribersRepository.subscriberUpdate(uid, {})
     }
 }

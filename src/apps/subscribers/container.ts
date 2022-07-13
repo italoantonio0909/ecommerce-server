@@ -7,12 +7,14 @@ import { SubscriberCreate } from './application/create/SubscriberCreate';
 import { SubscriberSearch } from './application/search/SubscriberSearch';
 import { SubscribersPaginate } from './application/paginate/SubscriberPaginate';
 import { SubscriberUpdate } from './application/update/SubscriberUpdate';
+import { SubscriberDelete } from './application/delete/SubscribersDelete';
 
 export const container = new Container()
-container.bind(TYPES.Subscribers).to(SubscriberCreate)
-container.bind(TYPES.Subscribers).to(SubscriberSearch)
-container.bind(TYPES.Subscribers).to(SubscribersPaginate)
-container.bind(TYPES.Subscribers).to(SubscriberUpdate)
+container.bind(TYPES.SubscriberCreate).to(SubscriberCreate)
+container.bind(TYPES.SubscriberSearch).to(SubscriberSearch)
+container.bind(TYPES.SubscriberPaginate).to(SubscribersPaginate)
+container.bind(TYPES.SubscriberUpdate).to(SubscriberUpdate)
+container.bind(TYPES.SubscriberDelete).to(SubscriberDelete)
 container.bind(TYPES.SubscriberAdapter).to(SubscriberAdapter)
 container.bind(TYPES.SubscriberApiClient).to(SubscriberWebApiClient)
 container
