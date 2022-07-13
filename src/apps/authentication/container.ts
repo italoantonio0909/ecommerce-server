@@ -1,8 +1,8 @@
 import { Container } from 'inversify'
 import TYPES from '../../../container.types'
-import { AuthenticationWebApiClientUserInterface } from './infraestructure/AuthenticationWebApi'
-import { AuthenticationWebApiClient } from './infraestructure/AuthenticationWebApiClient'
-import { AuthAdapter } from './infraestructure/AuthAdapter'
+import { AuthenticationWebApiClientUserInterface } from './infraestructure/api/AuthenticationWebApi'
+import { AuthenticationWebApiClient } from './infraestructure/firebase/AuthenticationWebApiClient'
+import { AuthAdapter } from './infraestructure/adapter/AuthAdapter'
 import { SignIn } from './application/signIn/SignIn';
 import { SignOut } from './application/SignOut/SignOut';
 

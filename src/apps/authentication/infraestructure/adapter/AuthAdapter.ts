@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify'
-import TYPES from '../../../../container.types'
-import { AuthCredential } from '../domain/AuthCredential'
-import { AuthenticationUserInterface } from './AuthenticationUserInterface'
-import { SignIn } from '../application/signIn/SignIn';
-import { SignOut } from '../application/SignOut/SignOut';
+import TYPES from '../../../../../container.types'
+import { AuthCredential } from '../../domain/AuthCredential'
+import { AuthenticationUserInterface } from '../ui/AuthenticationUserInterface'
+import { SignIn } from '../../application/signIn/SignIn';
+import { SignOut } from '../../application/SignOut/SignOut';
 
 @injectable()
 export class AuthAdapter {

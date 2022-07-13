@@ -1,19 +1,18 @@
 import { injectable } from 'inversify'
 import express from 'express'
-import { AuthenticationUserInterface } from './AuthenticationUserInterface'
-import { AuthCredential } from '../domain/AuthCredential'
+import { AuthenticationUserInterface } from '../ui/AuthenticationUserInterface'
+import { AuthCredential } from '../../domain/AuthCredential'
 import bodyParser from 'body-parser'
 
 @injectable()
 export class AuthenticationWebApiClientUserInterface
-  implements AuthenticationUserInterface
-{
+  implements AuthenticationUserInterface {
   static PORT = 3000
   api = express()
 
   constructor() {
     this.api.listen(8000, () => {
-      console.log(`web api listening on port 8000`)
+      console.log(`Authentication listening on port 8000`)
     })
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
@@ -26,17 +25,6 @@ export class AuthenticationWebApiClientUserInterface
       const credential = request.body as AuthCredential
       const isLoggin = await callback(credential)
       return response.send(isLoggin)
-    })
-  }
-
-  installSinUp(
-    callback: (credential: AuthCredential) => Promise<boolean>
-  ): void {
-    this.api.post('/api/auth/signUp', async function (request, response) {
-      const credential = request.body as AuthCredential
-      console.log({ credential })
-      const isLoggin = await callback(credential)
-      return response.send({ isLoggin })
     })
   }
 
