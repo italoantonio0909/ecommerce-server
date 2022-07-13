@@ -20,7 +20,7 @@ export class SubscriberWebApiClientUserInterface
 
   constructor() {
     this.api.listen(SubscriberWebApiClientUserInterface.PORT, () => {
-      console.log(`Subscribers listening on port ${SubscriberWebApiClientUserInterface.PORT}`)
+      console.log(`🔥 Subscribers listening on port ${SubscriberWebApiClientUserInterface.PORT}`)
     })
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
