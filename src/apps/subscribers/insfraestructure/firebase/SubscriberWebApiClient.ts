@@ -1,4 +1,4 @@
-import { injectable } from 'inversify'
+import { id, injectable } from 'inversify'
 import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
 import { SubscribersRepository } from '../../domain/SubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'
@@ -115,5 +115,19 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     }
 
     return snapshot.docs[0].data() as Subscriber
+  }
+
+  async subscriberUpdate(uid: string, subscriber: Partial<Subscriber>): Promise<Subscriber> {
+    const ref = this.firestore.collection('subscribers').doc(uid);
+
+    const { writeTime } = await ref.update(subscriber)
+
+    if (!writeTime) {
+      return null;
+    }
+
+    const snapshot = await ref.get()
+
+    return snapshot.data() as Subscriber
   }
 }

@@ -4,7 +4,7 @@ import { SubscribersRepository } from '../../domain/SubscribersRepository';
 import { SubscriberPaginate } from '../../domain/Subscriber';
 
 @injectable()
-export class Subscribers {
+export class SubscribersPaginate {
     constructor(
         @inject(TYPES.SubscriberApiClient)
         private subscribersRepository: SubscribersRepository

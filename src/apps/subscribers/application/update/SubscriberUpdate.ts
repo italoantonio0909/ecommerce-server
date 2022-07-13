@@ -5,7 +5,7 @@ import { Subscriber } from '../../domain/Subscriber';
 
 
 @injectable()
-export class Subscribers {
+export class SubscriberUpdate {
     constructor(
         @inject(TYPES.SubscriberApiClient)
         private subscribersRepository: SubscribersRepository
@@ -16,6 +16,6 @@ export class Subscribers {
             ...subscriber!,
             modified_at: new Date().getTime()
         }
-        return await this.subscriberUpdate(uid, data)
+        return await this.subscribersRepository.subscriberUpdate(uid, data)
     }
 }

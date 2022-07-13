@@ -7,7 +7,7 @@ export interface SubscribersRepository {
 
   subscriberUpdate(uid: string, subscriber: Partial<Subscriber>): Promise<Subscriber>;
 
-  subscriberDelete(id: string): Promise<Subscriber>;
+  subscriberDelete(uid: string): Promise<Subscriber>;
 
   subscriberSearch(email: string): Promise<Subscriber>;
 }
