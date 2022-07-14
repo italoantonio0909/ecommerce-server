@@ -155,7 +155,12 @@ export class BlogWebApiClient implements BlogRepository {
     const snapshot = await ref.get();
 
     if (snapshot.exists) {
-      return snapshot.data() as Post;
+      const post: Post = {
+        ...snapshot.data() as Post,
+        id: snapshot.id
+      }
+
+      return post
     }
   }
 }

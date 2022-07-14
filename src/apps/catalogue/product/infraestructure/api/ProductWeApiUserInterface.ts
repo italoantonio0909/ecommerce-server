@@ -19,7 +19,7 @@ export class ProductWebApiUserInterface implements ProductUserInterface {
 
     constructor() {
         this.api.listen(ProductWebApiUserInterface.PORT, () => {
-            console.log(`Catalogue listening on port ${ProductWebApiUserInterface.PORT}`)
+            console.log(`🔥 Catalogue listening on port ${ProductWebApiUserInterface.PORT}`)
         })
         this.api.use(bodyParser.urlencoded({ extended: false }))
         this.api.use(bodyParser.json())

@@ -14,6 +14,8 @@ export class CustomerCreate {
     return await this.customerRepository.customerCreate({
       ...customer,
       disabled: false,
+      displayName: customer.email,
+      emailVerified: true,
     })
   }
 }
