@@ -7,7 +7,6 @@ import { PostDelete } from '../../application/delete/PostDelete';
 import { PostRetrieveDetail } from '../../application/retrieve-detail/PostRetrieveDetail';
 import { PostAddComment } from '../../application/add-comment/PostAddComment';
 import { PostPublish } from '../../application/publish/PostPublish';
-import { PostUpdate } from '../../application/update/PostUpdate';
 import { PostsPaginate } from '../../application/paginate/PostPaginate';
 
 @injectable()
@@ -21,7 +20,6 @@ export class BlogAdapter {
     @inject(TYPES.BlogPostRetrieveDetail) private postRetrieveDetail: PostRetrieveDetail,
     @inject(TYPES.BlogPostAddComment) private postAddComment: PostAddComment,
     @inject(TYPES.BlogPostPublish) private postPublish: PostPublish,
-    @inject(TYPES.BlogPostUpdate) private postUpdate: PostUpdate
   ) { }
 
   init() {
@@ -38,7 +36,8 @@ export class BlogAdapter {
       this.postDelete.delete(postUid)
     )
     this.blogUserInterface.installPostRetrieveDetail((postUid: string) =>
-      this.postRetrieveDetail.retrieveDetail(postUid))
+      this.postRetrieveDetail.retrieveDetail(postUid)
+    )
     this.blogUserInterface.installPostAddComment((postUid: string, comment: Comment) =>
       this.postAddComment.addComment(postUid, comment))
   }

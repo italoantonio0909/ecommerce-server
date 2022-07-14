@@ -1,4 +1,4 @@
-import { id, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
 import { SubscribersRepository } from '../../domain/SubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'

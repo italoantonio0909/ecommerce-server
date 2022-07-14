@@ -4,6 +4,7 @@ import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
 import { SubscribersUserInterface } from '../ui/SubscribersUserInterface'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import morgan from 'morgan'
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
@@ -20,8 +21,9 @@ export class SubscriberWebApiClientUserInterface
 
   constructor() {
     this.api.listen(SubscriberWebApiClientUserInterface.PORT, () => {
-      console.log(`🔥 Subscribers listening on port ${SubscriberWebApiClientUserInterface.PORT}`)
+      console.log(`🔥Subscribers listening on port ${SubscriberWebApiClientUserInterface.PORT}`)
     })
+    this.api.use(morgan("dev"))
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
     this.api.use(cors({ origin: 'http://localhost:4200' }))

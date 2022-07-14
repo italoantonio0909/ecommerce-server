@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import { Comment, Post, PostPaginate } from '../../domain/Blog';
 import cors from 'cors';
+import morgan from 'morgan';
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
@@ -19,8 +20,9 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
 
   constructor() {
     this.api.listen(BlogWebApiClientUserInterface.PORT, () => {
-      console.log(`Blog listening on port ${BlogWebApiClientUserInterface.PORT}`)
+      console.log(`🔥🔥 Blog listening on port ${BlogWebApiClientUserInterface.PORT}`)
     })
+    this.api.use(morgan("dev"))
     this.api.use(bodyParser.urlencoded({ extended: false }))
     this.api.use(bodyParser.json())
     this.api.use(cors({ origin: 'http://localhost:4200' }))
@@ -61,7 +63,7 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
 
   installPostPaginate(callback: (limit: number, startAfter: number) => Promise<PostPaginate>): void {
     this.api.get(
-      '/api/posts/:limit/:startAfter',
+      '/api/posts/fetch/:limit/:startAfter',
       async function (req: Request, res: Response, next: NextFunction) {
         try {
           const { limit, startAfter } = req.params;
@@ -76,7 +78,7 @@ export class BlogWebApiClientUserInterface implements BlogUserInterface {
 
   installPostRetrieveDetail(callback: (postUid: string) => Promise<Post>): void {
     this.api.get(
-      '/api/posts/retrieve-detail/:postUid',
+      '/api/posts/retrieve-post/:postUid',
       async function (req: Request, res: Response, next: NextFunction) {
         try {
           const { postUid } = req.params;
