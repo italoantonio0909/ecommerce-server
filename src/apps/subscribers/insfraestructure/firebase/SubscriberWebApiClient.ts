@@ -34,6 +34,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   }
 
   async subscriberPaginateQuery(limit: number, startAfter: number): Promise<Array<Subscriber>> {
+
     const ref = this.firestore.collection('subscribers').orderBy('created_at')
 
     const snapshot = await ref.startAfter(startAfter).limit(limit).get()
@@ -46,41 +47,27 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     return result
   }
 
-  async subscriberQueryPrevious(first: number, limit: number): Promise<number> {
+  async subscribersPaginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate> {
+    let dataX;
 
-    const ref = this.firestore.collection('subscribers').orderBy('created_at')
+    const limit = page > 1 ? ((limitOfDocuments * page) - limitOfDocuments) : 0;
 
-    const snapshot = await ref.endBefore(first).limit(limit).get();
+    const subscribersAll = await this.firestore.collection('subscribers').select("_id").orderBy('created_at').get();
 
-    if (snapshot.empty) {
-      return null;
+    if (page > 1) {
+      const ref = subscribersAll.docs[limit - 1].id
+
+      const data = await this.firestore.collection('subscribers').doc(ref).get();
+
+      dataX = await data.data() as Subscriber;
     }
 
-    const result = snapshot.docs.map((data: any) => ({
-      id: data.id,
-      ...data.data(),
-    })) as Array<Subscriber>
-
-    return result[0].created_at
-  }
-
-  async subscribersPaginate(limit: number, startAfter: number): Promise<SubscriberPaginate> {
-
-    const subscribers = await this.firestore.collection('subscribers').select("_id").get();
-
-    const snapshot = startAfter === 0 ? await this.subscriberSimpleQuery(limit) : await this.subscriberPaginateQuery(limit, startAfter);
-
-    const last = snapshot ? snapshot[snapshot.length - 1].created_at : 0
-
-    const first = snapshot[0].created_at;
-
-    const previous = await this.subscriberQueryPrevious(first, limit);
+    const snapshot = page > 1
+      ? await this.subscriberPaginateQuery(limitOfDocuments, dataX?.created_at)
+      : await this.subscriberSimpleQuery(limitOfDocuments)
 
     return {
-      count: subscribers.size,
-      limit: limit,
-      next: last,
-      previous: previous,
+      count: subscribersAll.size,
       results: snapshot
     }
   }
@@ -129,5 +116,15 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     const snapshot = await ref.get()
 
     return snapshot.data() as Subscriber
+  }
+
+  async subscribersTotal(): Promise<{ subscribersTotal: number }> {
+    const ref = this.firestore.collection('subscribers').select("_id")
+
+    const snapshot = await ref.get();
+
+    return {
+      subscribersTotal: snapshot.size
+    }
   }
 }

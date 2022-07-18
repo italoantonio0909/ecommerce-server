@@ -30,14 +30,27 @@ export class SubscriberWebApiClientUserInterface
   }
 
   installSubscribersPaginate(
-    callback: (limit: number, startAfter: number) => Promise<SubscriberPaginate>
+    callback: (limit: number, page: number) => Promise<SubscriberPaginate>
   ): void {
     this.api.get(
-      '/api/subscribers/:limit/:next',
+      '/api/subscribers/:limitOfDocuments/:page',
       async function (req: Request, resp: Response) {
-        const { limit, next } = req.params
-        const subscribers = await callback(parseInt(limit), parseInt(next))
+        const { limitOfDocuments, page } = req.params
+        const subscribers = await callback(parseInt(limitOfDocuments), parseInt(page))
         return resp.status(200).send(subscribers)
+      }
+    )
+  }
+
+  installSubscriberTotal(
+    callback: () => Promise<{ subscribersTotal: number }>
+  ): void {
+    this.api.get(
+      '/api/subscribers/total',
+      async function (req: Request, resp: Response) {
+        const result = await callback();
+
+        return resp.status(200).send(result)
       }
     )
   }

@@ -6,6 +6,7 @@ import { SubscriberCreate } from '../../application/create/SubscriberCreate';
 import { SubscribersPaginate } from '../../application/paginate/SubscriberPaginate';
 import { Subscriber } from '../../domain/Subscriber';
 import { SubscriberDelete } from '../../application/delete/SubscribersDelete';
+import { SubscriberTotal } from '../../application/total/SubscribersTotal';
 
 @injectable()
 export class SubscriberAdapter {
@@ -15,13 +16,13 @@ export class SubscriberAdapter {
     @inject(TYPES.SubscriberPaginate) private subscriberPaginate: SubscribersPaginate,
     @inject(TYPES.SubscriberCreate) private subscriberCreate: SubscriberCreate,
     @inject(TYPES.SubscriberUpdate) private subscriberUpdate: SubscriberUpdate,
-    @inject(TYPES.SubscriberDelete) private subscriberdelete: SubscriberDelete
-
+    @inject(TYPES.SubscriberDelete) private subscriberdelete: SubscriberDelete,
+    @inject(TYPES.SubscriberTotal) private subscriberTotal: SubscriberTotal
   ) { }
 
   init() {
-    this.subscribersUserInterface.installSubscribersPaginate((limit: number, startAfter: number) =>
-      this.subscriberPaginate.paginate(limit, startAfter)
+    this.subscribersUserInterface.installSubscribersPaginate((limitOfDocuments: number, page: number) =>
+      this.subscriberPaginate.paginate(limitOfDocuments, page)
     )
     this.subscribersUserInterface.installSubscriberCreate(
       (subscriber: Subscriber) => this.subscriberCreate.create(subscriber)
@@ -31,6 +32,9 @@ export class SubscriberAdapter {
     )
     this.subscribersUserInterface.installSubscriberUpdate((uid: string, subscriber: Partial<Subscriber>) =>
       this.subscriberUpdate.update(uid, subscriber)
+    )
+    this.subscribersUserInterface.installSubscriberTotal(() =>
+      this.subscriberTotal.total()
     )
   }
 }

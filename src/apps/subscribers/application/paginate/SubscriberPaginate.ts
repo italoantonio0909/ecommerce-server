@@ -10,7 +10,7 @@ export class SubscribersPaginate {
         private subscribersRepository: SubscribersRepository
     ) { }
 
-    async paginate(limit: number, startAfter: number): Promise<SubscriberPaginate> {
-        return await this.subscribersRepository.subscribersPaginate(limit, startAfter);
+    async paginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate> {
+        return await this.subscribersRepository.subscribersPaginate(limitOfDocuments, page);
     }
 }
