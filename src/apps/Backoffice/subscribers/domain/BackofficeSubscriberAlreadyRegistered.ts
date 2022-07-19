@@ -1,4 +1,4 @@
-export class SubscriberAlreadyExists extends Error {
+export class BackofficeSubscriberAlreadyExists extends Error {
     constructor() {
         super()
         this.message = "Email already in use"

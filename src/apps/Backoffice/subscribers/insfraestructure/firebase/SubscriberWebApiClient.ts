@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
-import { Subscriber } from '../../domain/Subscriber';
-import { SubscribersRepository } from '../../domain/SubscribersRepository'
+import { Subscriber } from '../../domain/BackofficeSubscriber';
+import { SubscribersRepository } from '../../domain/BackofficeSubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import dotenv from 'dotenv'

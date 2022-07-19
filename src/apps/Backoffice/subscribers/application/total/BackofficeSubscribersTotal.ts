@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify'
-import { SubscribersRepository } from '../../domain/SubscribersRepository';
+import { BackofficeSubscribersRepository } from '../../domain/BackofficeSubscribersRepository';
 import TYPES from '../../../../../../container.types';
 
 @injectable()
-export class SubscriberTotal {
+export class BackofficeSubscriberTotal {
     constructor(
         @inject(TYPES.SubscriberApiClient)
-        private subscribersRepository: SubscribersRepository
+        private repository: BackofficeSubscribersRepository
     ) { }
 
     async total(): Promise<{ subscribersTotal: number }> {
-        return await this.subscribersRepository.subscribersTotal()
+        return await this.repository.total()
     }
 }

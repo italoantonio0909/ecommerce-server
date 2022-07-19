@@ -2,11 +2,11 @@ import { inject, injectable } from 'inversify'
 import TYPES from '../../../../../../container.types'
 import { SubscribersUserInterface } from '../ui/SubscribersUserInterface'
 import { SubscriberUpdate } from '../../application/update/SubscriberUpdate';
-import { SubscriberCreate } from '../../application/create/SubscriberCreate';
-import { SubscribersPaginate } from '../../application/paginate/SubscriberPaginate';
-import { Subscriber } from '../../domain/Subscriber';
-import { SubscriberDelete } from '../../application/delete/SubscribersDelete';
-import { SubscriberTotal } from '../../application/total/SubscribersTotal';
+import { SubscriberCreate } from '../../application/create/BackofficeSubscriberCreate';
+import { SubscribersPaginate } from '../../application/paginate/BackofficeSubscriberPaginate';
+import { Subscriber } from '../../domain/BackofficeSubscriber';
+import { SubscriberDelete } from '../../application/delete/BackofficeSubscribersDelete';
+import { SubscriberTotal } from '../../application/total/BackofficeSubscribersTotal';
 
 @injectable()
 export class SubscriberAdapter {

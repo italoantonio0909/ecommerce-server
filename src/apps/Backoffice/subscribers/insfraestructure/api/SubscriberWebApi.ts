@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import express, { NextFunction, Request, Response } from 'express'
-import { Subscriber } from '../../domain/Subscriber';
+import { Subscriber } from '../../domain/BackofficeSubscriber';
 import { SubscribersUserInterface } from '../ui/SubscribersUserInterface'
 import bodyParser from 'body-parser'
 import cors from 'cors'
