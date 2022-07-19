@@ -1,40 +1,40 @@
 import { inject, injectable } from 'inversify'
 import TYPES from '../../../../../../container.types'
-import { SubscribersUserInterface } from '../ui/SubscribersUserInterface'
-import { SubscriberUpdate } from '../../application/update/SubscriberUpdate';
-import { SubscriberCreate } from '../../application/create/BackofficeSubscriberCreate';
-import { SubscribersPaginate } from '../../application/paginate/BackofficeSubscriberPaginate';
-import { Subscriber } from '../../domain/BackofficeSubscriber';
-import { SubscriberDelete } from '../../application/delete/BackofficeSubscribersDelete';
-import { SubscriberTotal } from '../../application/total/BackofficeSubscribersTotal';
+import { BackofficeSubscribersUserInterface } from '../ui/BackofficeSubscribersUserInterface';
+import { BackOfficeSubscribersPaginate } from '../../application/paginate/BackofficeSubscriberPaginate';
+import { BackOfficeSubscriberCreate } from '../../application/create/BackofficeSubscriberCreate';
+import { BackofficeSubscriberUpdate } from '../../application/update/BackofficeSubscriberUpdate';
+import { BackofficeSubscriberDelete } from '../../application/delete/BackofficeSubscribersDelete';
+import { BackofficeSubscriberTotal } from '../../application/total/BackofficeSubscribersTotal';
+import { BackofficeSubscriber } from '../../domain/BackofficeSubscriber';
 
 @injectable()
 export class SubscriberAdapter {
   constructor(
-    @inject(TYPES.SubscriberUserInterface)
-    private subscribersUserInterface: SubscribersUserInterface,
-    @inject(TYPES.SubscriberPaginate) private subscriberPaginate: SubscribersPaginate,
-    @inject(TYPES.SubscriberCreate) private subscriberCreate: SubscriberCreate,
-    @inject(TYPES.SubscriberUpdate) private subscriberUpdate: SubscriberUpdate,
-    @inject(TYPES.SubscriberDelete) private subscriberdelete: SubscriberDelete,
-    @inject(TYPES.SubscriberTotal) private subscriberTotal: SubscriberTotal
+    @inject(TYPES.SubscriberDelete) private backofficeSubscriberDelete: BackofficeSubscriberDelete,
+    @inject(TYPES.SubscriberUserInterface) private ui: BackofficeSubscribersUserInterface,
+    @inject(TYPES.SubscriberCreate) private create: BackOfficeSubscriberCreate,
+    @inject(TYPES.SubscriberPaginate) private paginate: BackOfficeSubscribersPaginate,
+    @inject(TYPES.SubscriberUpdate) private update: BackofficeSubscriberUpdate,
+    @inject(TYPES.SubscriberTotal) private total: BackofficeSubscriberTotal,
   ) { }
 
   init() {
-    this.subscribersUserInterface.installSubscribersPaginate((limitOfDocuments: number, page: number) =>
-      this.subscriberPaginate.paginate(limitOfDocuments, page)
+
+    this.ui.installBackofficeSubscribersPaginate((limitOfDocuments: number, page: number) =>
+      this.paginate.paginate(limitOfDocuments, page)
     )
-    this.subscribersUserInterface.installSubscriberCreate(
-      (subscriber: Subscriber) => this.subscriberCreate.create(subscriber)
+    this.ui.installBackofficeSubscriberCreate(
+      (subscriber: BackofficeSubscriber) => this.create.create(subscriber)
     )
-    this.subscribersUserInterface.installSubscriberDelete((id: string) =>
-      this.subscriberdelete.delete(id)
+    this.ui.installBackofficeSubscriberDelete((id: string) =>
+      this.backofficeSubscriberDelete.delete(id)
     )
-    this.subscribersUserInterface.installSubscriberUpdate((uid: string, subscriber: Partial<Subscriber>) =>
-      this.subscriberUpdate.update(uid, subscriber)
+    this.ui.installBackofficeSubscriberUpdate((uid: string, subscriber: Partial<BackofficeSubscriber>) =>
+      this.update.update(uid, subscriber)
     )
-    this.subscribersUserInterface.installSubscriberTotal(() =>
-      this.subscriberTotal.total()
+    this.ui.installBackofficeSubscriberTotal(() =>
+      this.total.total()
     )
   }
 }

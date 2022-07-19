@@ -6,7 +6,7 @@ import { SubscriberWebApiClientUserInterface } from './insfraestructure/api/Subs
 import { SubscriberCreate } from './application/create/BackofficeSubscriberCreate';
 import { SubscriberSearch } from './application/search/BackofficeSubscriberSearch';
 import { SubscribersPaginate } from './application/paginate/BackofficeSubscriberPaginate';
-import { SubscriberUpdate } from './application/update/SubscriberUpdate';
+import { SubscriberUpdate } from './application/update/BackofficeSubscriberUpdate';
 import { SubscriberDelete } from './application/delete/BackofficeSubscribersDelete';
 import { SubscriberTotal } from './application/total/BackofficeSubscribersTotal';
 

@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify'
 import TYPES from '../../../../../../container.types';
 import { BackofficeSubscribersRepository } from '../../domain/BackofficeSubscribersRepository';
-import { Paginate } from '../../../../shared/pagination/domain/Paginate';
 import { BackofficeSubscriber } from '../../domain/BackofficeSubscriber';
+import { Paginate } from '../../../../Shared/pagination/domain/Paginate';
 
 @injectable()
 export class BackOfficeSubscribersPaginate {

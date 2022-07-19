@@ -4,7 +4,7 @@ import { BackofficeSubscribersRepository } from '../../domain/BackofficeSubscrib
 import { BackofficeSubscriber } from '../../domain/BackofficeSubscriber';
 
 @injectable()
-export class SubscriberUpdate {
+export class BackofficeSubscriberUpdate {
     constructor(
         @inject(TYPES.SubscriberApiClient)
         private repository: BackofficeSubscribersRepository

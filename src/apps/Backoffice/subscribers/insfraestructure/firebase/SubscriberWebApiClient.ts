@@ -1,14 +1,15 @@
 import { injectable } from 'inversify'
-import { Subscriber } from '../../domain/BackofficeSubscriber';
-import { SubscribersRepository } from '../../domain/BackofficeSubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import dotenv from 'dotenv'
-import { Paginate } from '../../../../shared/pagination/domain/Paginate';
+import { Paginate } from '../../../../Shared/pagination/domain/Paginate';
+import { BackofficeSubscriber } from '../../domain/BackofficeSubscriber';
+import { BackofficeSubscribersRepository } from '../../domain/BackofficeSubscribersRepository';
+import { BackofficeSubscriberTotal } from '../../application/total/BackofficeSubscribersTotal';
 
 dotenv.config()
 @injectable()
-export class SubscriberWebApiClient implements SubscribersRepository {
+export class SubscriberWebApiClient implements BackofficeSubscribersRepository {
 
   firestore: admin.firestore.Firestore
 
@@ -21,7 +22,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     this.firestore = firestore.firestore()
   }
 
-  async subscriberSimpleQuery(limit: number): Promise<Array<Subscriber>> {
+  async simpleQuery(limit: number): Promise<Array<BackofficeSubscriber>> {
     const ref = this.firestore.collection('subscribers').orderBy('created_at')
 
     const snapshot = await ref.limit(limit).get()
@@ -29,12 +30,12 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     const result = snapshot.docs.map((data: any) => ({
       id: data.id,
       ...data.data(),
-    })) as Array<Subscriber>
+    })) as Array<BackofficeSubscriber>
 
     return result
   }
 
-  async subscriberPaginateQuery(limit: number, startAfter: number): Promise<Array<Subscriber>> {
+  async paginateQuery(limit: number, startAfter: number): Promise<Array<BackofficeSubscriber>> {
 
     const ref = this.firestore.collection('subscribers').orderBy('created_at')
 
@@ -43,12 +44,12 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     const result = snapshot.docs.map((data: any) => ({
       id: data.id,
       ...data.data(),
-    })) as Array<Subscriber>
+    })) as Array<BackofficeSubscriber>
 
     return result
   }
 
-  async subscribersPaginate(limitOfDocuments: number, page: number): Promise<Paginate<Subscriber>> {
+  async paginate(limitOfDocuments: number, page: number): Promise<Paginate<BackofficeSubscriber>> {
 
     let dataX;
 
@@ -61,12 +62,12 @@ export class SubscriberWebApiClient implements SubscribersRepository {
 
       const data = await this.firestore.collection('subscribers').doc(ref).get();
 
-      dataX = await data.data() as Subscriber;
+      dataX = await data.data() as BackofficeSubscriber;
     }
 
     const snapshot = page > 1
-      ? await this.subscriberPaginateQuery(limitOfDocuments, dataX?.created_at)
-      : await this.subscriberSimpleQuery(limitOfDocuments)
+      ? await this.paginateQuery(limitOfDocuments, dataX?.created_at)
+      : await this.simpleQuery(limitOfDocuments)
 
     return {
       count: subscribersAll.size,
@@ -74,7 +75,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     }
   }
 
-  async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {
+  async create(subscriber: BackofficeSubscriber): Promise<BackofficeSubscriber> {
     const ref = this.firestore.collection('subscribers').doc()
 
     const { writeTime } = await ref.set(subscriber)
@@ -83,7 +84,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     }
   }
 
-  async subscriberDelete(id: string): Promise<Subscriber> {
+  async delete(id: string): Promise<BackofficeSubscriber> {
     const ref = this.firestore.collection('subscribers').doc(id)
 
     const { writeTime } = await ref.update({ status: 'inactive' })
@@ -91,11 +92,11 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     if (writeTime) {
       const snapshot = await ref.get()
 
-      return snapshot.data() as Subscriber
+      return snapshot.data() as BackofficeSubscriber
     }
   }
 
-  async subscriberSearch(email: string): Promise<Subscriber> {
+  async searchByEmail(email: string): Promise<BackofficeSubscriber> {
     const ref = this.firestore.collection('subscribers').where('email', '==', email.trim());
 
     const snapshot = await ref.get()
@@ -103,10 +104,10 @@ export class SubscriberWebApiClient implements SubscribersRepository {
       return null;
     }
 
-    return snapshot.docs[0].data() as Subscriber
+    return snapshot.docs[0].data() as BackofficeSubscriber
   }
 
-  async subscriberUpdate(uid: string, subscriber: Partial<Subscriber>): Promise<Subscriber> {
+  async update(uid: string, subscriber: Partial<BackofficeSubscriber>): Promise<BackofficeSubscriber> {
     const ref = this.firestore.collection('subscribers').doc(uid);
 
     const { writeTime } = await ref.update(subscriber)
@@ -117,10 +118,10 @@ export class SubscriberWebApiClient implements SubscribersRepository {
 
     const snapshot = await ref.get()
 
-    return snapshot.data() as Subscriber
+    return snapshot.data() as BackofficeSubscriber
   }
 
-  async subscribersTotal(): Promise<{ subscribersTotal: number }> {
+  async total(): Promise<{ subscribersTotal: number }> {
     const ref = this.firestore.collection('subscribers').select("_id")
 
     const snapshot = await ref.get();
