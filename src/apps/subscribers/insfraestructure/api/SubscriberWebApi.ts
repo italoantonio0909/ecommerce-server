@@ -1,10 +1,11 @@
 import { injectable } from 'inversify'
 import express, { NextFunction, Request, Response } from 'express'
-import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
+import { Subscriber } from '../../domain/Subscriber';
 import { SubscribersUserInterface } from '../ui/SubscribersUserInterface'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+import { Paginate } from '../../../shared/pagination/domain/Paginate';
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
@@ -30,7 +31,7 @@ export class SubscriberWebApiClientUserInterface
   }
 
   installSubscribersPaginate(
-    callback: (limit: number, page: number) => Promise<SubscriberPaginate>
+    callback: (limit: number, page: number) => Promise<Paginate<Subscriber>>
   ): void {
     this.api.get(
       '/api/subscribers/:limitOfDocuments/:page',

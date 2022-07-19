@@ -1,8 +1,8 @@
 import { Category } from '../../../category/domain/Category'
-import { CategoryPaginate } from '../../domain/Category';
+import { Paginate } from '../../../../shared/pagination/domain/Paginate';
 
 export interface CategoryUserInterface {
-  installCategoryPaginate(callback: (limit: number, startAfter: number) => Promise<CategoryPaginate>): void
+  installCategoryPaginate(callback: (limit: number, startAfter: number) => Promise<Paginate<Category>>): void
 
   installCategoryCreate(callback: (category: Category) => Promise<Category>): void
 }

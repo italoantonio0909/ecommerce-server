@@ -7,8 +7,3 @@ export class Subscriber {
   readonly modified_at?: number
   readonly status: SubscriberStatus
 }
-
-export type SubscriberPaginate = {
-  count: number,
-  results: Array<Subscriber>
-}

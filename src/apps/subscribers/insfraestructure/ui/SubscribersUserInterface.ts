@@ -1,7 +1,8 @@
-import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
+import { Subscriber } from '../../domain/Subscriber';
+import { Paginate } from '../../../shared/pagination/domain/Paginate';
 
 export interface SubscribersUserInterface {
-  installSubscribersPaginate(callback: (limitOfDocuments: number, page: number) => Promise<SubscriberPaginate>): void
+  installSubscribersPaginate(callback: (limitOfDocuments: number, page: number) => Promise<Paginate<Subscriber>>): void
 
   installSubscriberCreate(callback: (subscriber: Subscriber) => Promise<Subscriber>): void
 

@@ -1,9 +1,10 @@
 import { injectable } from 'inversify'
-import { Subscriber, SubscriberPaginate } from '../../domain/Subscriber';
+import { Subscriber } from '../../domain/Subscriber';
 import { SubscribersRepository } from '../../domain/SubscribersRepository'
 import { applicationDefault } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 import dotenv from 'dotenv'
+import { Paginate } from '../../../shared/pagination/domain/Paginate';
 
 dotenv.config()
 @injectable()
@@ -47,7 +48,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     return result
   }
 
-  async subscribersPaginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate> {
+  async subscribersPaginate(limitOfDocuments: number, page: number): Promise<Paginate<Subscriber>> {
 
     let dataX;
 

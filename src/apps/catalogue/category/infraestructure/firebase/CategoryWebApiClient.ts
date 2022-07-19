@@ -4,7 +4,7 @@ import { Category } from '../../../category/domain/Category'
 import { injectable } from 'inversify'
 import dotenv from 'dotenv'
 import { CategoryRepository } from '../../domain/CategoryRepository';
-import { CategoryPaginate } from '../../domain/Category';
+import { Paginate } from '../../../../shared/pagination/domain/Paginate';
 
 dotenv.config()
 @injectable()
@@ -47,13 +47,13 @@ export class CategoryWebApiClient implements CategoryRepository {
     return result
   }
 
-  async categoryPaginate(limit: number, startAfter: number): Promise<CategoryPaginate> {
+  async categoryPaginate(limit: number, startAfter: number): Promise<Paginate<Category>> {
 
     const snapshot = startAfter === 0 ? await this.categorySimpleQuery(limit) : await this.categoryPaginateQuery(limit, startAfter);
 
     const last = snapshot[snapshot.length - 1]
 
-    return { categories: snapshot, startAfter: last ? last.created_at : 0 }
+    return { results: snapshot, count: 1 }
   }
 
   async categoryCreate(category: Category) {

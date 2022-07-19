@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify'
 import TYPES from '../../../../../container.types';
 import { SubscribersRepository } from '../../domain/SubscribersRepository';
-import { SubscriberPaginate } from '../../domain/Subscriber';
+import { Paginate } from '../../../shared/pagination/domain/Paginate';
+import { Subscriber } from '../../domain/Subscriber';
 
 @injectable()
 export class SubscribersPaginate {
@@ -10,7 +11,7 @@ export class SubscribersPaginate {
         private subscribersRepository: SubscribersRepository
     ) { }
 
-    async paginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate> {
+    async paginate(limitOfDocuments: number, page: number): Promise<Paginate<Subscriber>> {
         return await this.subscribersRepository.subscribersPaginate(limitOfDocuments, page);
     }
 }

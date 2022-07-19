@@ -3,7 +3,8 @@ import express, { NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
-import { Category, CategoryPaginate } from '../../../category/domain/Category'
+import { Category } from '../../../category/domain/Category'
+import { Paginate } from '../../../../shared/pagination/domain/Paginate';
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
@@ -27,7 +28,7 @@ export class CategoryApiClient implements CategoryUserInterface {
   }
 
   installCategoryPaginate(
-    callback: (limit: number, startAfter: number) => Promise<CategoryPaginate>
+    callback: (limit: number, startAfter: number) => Promise<Paginate<Category>>
   ): void {
     this.api.get(
       '/api/catalogue/category/:limit/:startAfter',

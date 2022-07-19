@@ -7,6 +7,3 @@ export class Category {
   readonly created_at?: number
   readonly modified_at?: number
 }
-
-
-export type CategoryPaginate = { categories: Array<Category>; startAfter: number }

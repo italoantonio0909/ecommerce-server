@@ -1,7 +1,8 @@
-import { Subscriber, SubscriberPaginate } from './Subscriber';
+import { Subscriber } from './Subscriber';
+import { Paginate } from '../../shared/pagination/domain/Paginate';
 
 export interface SubscribersRepository {
-  subscribersPaginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate>;
+  subscribersPaginate(limitOfDocuments: number, page: number): Promise<Paginate<Subscriber>>;
 
   subscriberCreate(subscriber: Subscriber): Promise<Subscriber>;
 

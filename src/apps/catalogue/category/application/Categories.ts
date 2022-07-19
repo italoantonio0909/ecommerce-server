@@ -1,8 +1,9 @@
 import { inject, injectable } from 'inversify'
-import { Category, CategoryPaginate } from '../domain/Category';
+import { Category } from '../domain/Category';
 import TYPES from '../../../../../container.types'
 import { CategoryRepository } from '../domain/CategoryRepository';
 import { CategoryAlreadyExists } from '../domain/CategoryAlreadyExists';
+import { Paginate } from '../../../shared/pagination/domain/Paginate';
 
 @injectable()
 export class Categories {
@@ -11,7 +12,7 @@ export class Categories {
     private readonly categoryRepository: CategoryRepository
   ) { }
 
-  async categoryPaginate(limit: number, startAfter: number): Promise<CategoryPaginate> {
+  async categoryPaginate(limit: number, startAfter: number): Promise<Paginate<Category>> {
     return await this.categoryRepository.categoryPaginate(limit, startAfter)
   }
 
