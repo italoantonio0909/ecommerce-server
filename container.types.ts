@@ -2,6 +2,7 @@ const TYPES = {
   SubscribersRepository: Symbol('SubscribersRepository'),
   SubscriberAdapter: Symbol('SubscriberAdapter'),
   SubscriberCreate: Symbol('SubscriberCreate'),
+  SubscriberTotal: Symbol('SubscriberTotal'),
   SubscriberSearch: Symbol('SubscriberSearch'),
   SubscriberDelete: Symbol('SubscriberDelete'),
   SubscriberPaginate: Symbol('SubscriberPaginate'),
