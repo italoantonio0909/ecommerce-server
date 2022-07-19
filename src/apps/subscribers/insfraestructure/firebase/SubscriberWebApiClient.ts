@@ -48,6 +48,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
   }
 
   async subscribersPaginate(limitOfDocuments: number, page: number): Promise<SubscriberPaginate> {
+
     let dataX;
 
     const limit = page > 1 ? ((limitOfDocuments * page) - limitOfDocuments) : 0;

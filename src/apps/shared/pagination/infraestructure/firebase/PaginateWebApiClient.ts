@@ -3,7 +3,7 @@ import { PaginateRepository } from '../../domain/PaginateRepository';
 import admin from 'firebase-admin';
 
 
-export class PaginateWebApiCient implements PaginateRepository {
+export class PaginateWebApiClient implements PaginateRepository {
     firestore: admin.firestore.Firestore
     collectionPath: string;
 
@@ -12,7 +12,7 @@ export class PaginateWebApiCient implements PaginateRepository {
         this.collectionPath = collectionPath;
     }
 
-    async paginatePaginateQuery(limit: number, startAfter: number): Promise<Array<T>> {
+    async paginatePaginateQuery<T>(limit: number, startAfter: number): Promise<Array<T>> {
         const ref = this.firestore.collection(this.collectionPath).orderBy('created_at')
 
         const snapshot = await ref.startAfter(startAfter).limit(limit).get()
