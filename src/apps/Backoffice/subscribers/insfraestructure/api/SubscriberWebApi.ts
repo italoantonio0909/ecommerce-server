@@ -35,7 +35,7 @@ export class SubscriberWebApiClientUserInterface
     callback: (limit: number, page: number) => Promise<Paginate<BackofficeSubscriber>>
   ): void {
     this.api.get(
-      '/api/subscribers/:limitOfDocuments/:page',
+      '/api/backoffice/subscribers/:limitOfDocuments/:page',
       async function (req: Request, resp: Response) {
         const { limitOfDocuments, page } = req.params
         const result = await callback(parseInt(limitOfDocuments), parseInt(page))
@@ -48,7 +48,7 @@ export class SubscriberWebApiClientUserInterface
     callback: () => Promise<{ subscribersTotal: number }>
   ): void {
     this.api.get(
-      '/api/subscribers/total',
+      '/api/backoffice/subscribers/total',
       async function (req: Request, resp: Response) {
         const result = await callback();
         return resp.status(200).send(result)
@@ -60,7 +60,7 @@ export class SubscriberWebApiClientUserInterface
     callback: (subscriber: BackofficeSubscriber) => Promise<BackofficeSubscriber>
   ): void {
     this.api.post(
-      '/api/subscribers',
+      '/api/backoffice/subscribers',
       async function (req: Request, resp: Response, next: NextFunction) {
         try {
           const subscriber = req.body as BackofficeSubscriber
@@ -77,7 +77,7 @@ export class SubscriberWebApiClientUserInterface
     callback: (id: string) => Promise<BackofficeSubscriber>
   ): void {
     this.api.delete(
-      '/api/subscribers/:id',
+      '/api/backoffice/subscribers/:id',
       async function (req: Request, resp: Response) {
         const { id } = req.params
         const result = await callback(id)
@@ -90,7 +90,7 @@ export class SubscriberWebApiClientUserInterface
     callback: (uid: string, subscriber: Partial<BackofficeSubscriber>) => Promise<BackofficeSubscriber>
   ) {
     this.api.put(
-      '/api/subscribers/:id',
+      '/api/backoffice/subscribers/:id',
       async function (req: Request, resp: Response) {
         const { id } = req.params
         const data = req.body as Partial<BackofficeSubscriber>
