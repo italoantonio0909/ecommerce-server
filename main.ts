@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { BackendApp } from './src/apps/backend/start';
+import { container } from './src/apps/backend/dependency-injection'
 
 new BackendApp().start();
-// import { container } from './src/apps/sales/subscribers/container';
 
-// container
+container
