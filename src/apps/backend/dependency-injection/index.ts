@@ -3,7 +3,7 @@ import TYPES from '../../../../container.types';
 import { SubscriberCreate } from '../../../Contexts/Sales/subscribers/application/create/SubscriberCreate';
 import { SubscriberSearch } from '../../../Contexts/Sales/subscribers/application/search/SubscriberSearch';
 import { SubscriberAdapter } from '../../../Contexts/Sales/subscribers/insfraestructure/adapter/SubscriberAdapter';
-import { SubscriberWebApiClientUserInterface } from '../../../Contexts/Sales/subscribers/insfraestructure/api/SubscriberWebApiClientUserInterface.route';
+import { SubscriberWebApiClientUserInterface } from '../../../Contexts/Sales/subscribers/insfraestructure/api/SubscriberWebApiClientUserInterface';
 import { SubscriberWebApiClient } from '../../../Contexts/Sales/subscribers/insfraestructure/firebase/SubscriberWebApiClient';
 
 export const container = new Container();
