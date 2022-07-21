@@ -1,5 +1,5 @@
 import 'reflect-metadata'
 
-import { container } from './src/apps/sales/subscribers/container';
+// import { container } from './src/apps/sales/subscribers/container';
 
-container
+// container
