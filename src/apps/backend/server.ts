@@ -18,7 +18,7 @@ export class Server {
         this.express.use(morgan("dev"));
         this.express.use(bodyParser.urlencoded({ extended: false }));
         this.express.use(bodyParser.json());
-        this.express.use(cors({ origin: 'http://localhost:4200' }));
+        this.express.use(cors({ origin: process.env.PORT_CLIENT }));
         const router = Router();
         router.use(errorHandler());
         this.express.use(router);
