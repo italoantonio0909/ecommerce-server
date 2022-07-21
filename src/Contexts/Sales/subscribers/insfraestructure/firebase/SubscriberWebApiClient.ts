@@ -20,7 +20,7 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     this.firestore = firestore.firestore()
   }
 
-  async subscriberCreate(subscriber: Subscriber): Promise<Subscriber> {
+  async create(subscriber: Subscriber): Promise<Subscriber> {
     const ref = this.firestore.collection('subscribers').doc()
 
     const { writeTime } = await ref.set(subscriber)
@@ -29,5 +29,14 @@ export class SubscriberWebApiClient implements SubscribersRepository {
     }
   }
 
+  async searchByEmail(email: string): Promise<Subscriber> {
+    const ref = this.firestore.collection('subscribers').where("email", "==", email);
+    const snapshot = await ref.get()
 
+    if (snapshot.empty) {
+      return null;
+    }
+
+    return snapshot.docs[0].data() as Subscriber
+  }
 }

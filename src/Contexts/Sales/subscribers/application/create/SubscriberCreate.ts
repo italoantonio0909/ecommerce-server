@@ -13,7 +13,7 @@ export class SubscriberCreate {
 
     async create({ email }: Subscriber): Promise<Subscriber> {
 
-        const subscribers = await this.subscribersRepository.subscriberSearch(email);
+        const subscribers = await this.subscribersRepository.searchByEmail(email);
 
         if (subscribers !== null) {
             throw new SubscriberAlreadyExists()
@@ -25,6 +25,6 @@ export class SubscriberCreate {
             modified_at: new Date().getTime(),
             status: "active",
         }
-        return this.subscribersRepository.subscriberCreate(subscriber)
+        return this.subscribersRepository.create(subscriber)
     }
 }

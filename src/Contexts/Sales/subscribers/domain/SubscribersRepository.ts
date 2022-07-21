@@ -1,5 +1,7 @@
 import { Subscriber } from './Subscriber';
 
 export interface SubscribersRepository {
-  subscriberCreate(subscriber: Subscriber): Promise<Subscriber>;
+  create(subscriber: Subscriber): Promise<Subscriber>;
+
+  searchByEmail(email: string): Promise<Subscriber>;
 }
