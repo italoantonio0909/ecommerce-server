@@ -25,6 +25,6 @@ export class SubscriberCreate {
             modified_at: new Date().getTime(),
             status: "active",
         }
-        return this.subscribersRepository.create(subscriber)
+        return this.subscribersRepository.create(subscriber);
     }
 }

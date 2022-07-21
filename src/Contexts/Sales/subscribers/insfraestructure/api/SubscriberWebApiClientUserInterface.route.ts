@@ -9,7 +9,7 @@ export class SubscriberWebApiClientUserInterface implements SubscribersUserInter
 
   // router: Router;
 
-  constructor(router: Router) {
+  constructor() {
     // this.router = router;
   }
 
