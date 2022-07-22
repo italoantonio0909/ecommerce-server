@@ -3,11 +3,11 @@ import { Response, Request, NextFunction } from 'express';
 import { container } from '../../../../../apps/backend/dependency-injection/sales/Subscribers';
 import TYPES from '../../../../../../container.types';
 import { Subscriber } from '../../domain/Subscriber';
-import { SubscriberAdapter } from '../adapter/SubscriberAdapter';
+import { SubscriberCreate } from '../../application/create/SubscriberCreate';
 
 export const register = (router: Router) => {
 
-    const callback = container.get<SubscriberAdapter>(TYPES.SubscriberAdapter).installSubscriberCreate;
+    const callback = container.get<SubscriberCreate>(TYPES.SubscriberCreate).create;
 
     router.post("/api/subscribers", async (req: Request, res: Response, next: NextFunction) => {
         try {
