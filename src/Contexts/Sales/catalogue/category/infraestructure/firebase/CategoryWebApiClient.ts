@@ -4,7 +4,7 @@ import { Category } from '../../../category/domain/Category'
 import { injectable } from 'inversify'
 import dotenv from 'dotenv'
 import { CategoryRepository } from '../../domain/CategoryRepository';
-import { Paginate } from '../../../../shared/pagination/domain/Paginate';
+import { Paginate } from '../../../../../Shared/pagination/domain/Paginate';
 
 dotenv.config()
 @injectable()

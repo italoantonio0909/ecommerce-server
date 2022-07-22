@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { CategoryUserInterface } from '../ui/CategoryUserInterface'
 import { Category } from '../../../category/domain/Category'
-import { Paginate } from '../../../../shared/pagination/domain/Paginate';
+import { Paginate } from '../../../../../Shared/pagination/domain/Paginate';
 
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   if (res.headersSent) {
