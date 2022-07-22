@@ -11,5 +11,5 @@ container.bind(TYPES.SubscriberCreate).to(SubscriberCreate);
 container.bind(TYPES.SubscriberSearch).to(SubscriberSearch);
 container.bind(TYPES.SubscriberAdapter).to(SubscriberAdapter);
 container.bind(TYPES.SubscriberApiClient).to(SubscriberWebApiClient);
-container.bind(TYPES.SubscriberUserInterface).to(SubscriberWebApiClientUserInterface);
+// container.bind(TYPES.SubscriberUserInterface).to(SubscriberWebApiClientUserInterface);
 // container.get<SubscriberAdapter>(TYPES.SubscriberAdapter).init();
