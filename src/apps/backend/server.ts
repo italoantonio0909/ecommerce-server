@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import errorHandler from 'errorhandler';
 import * as http from 'http';
-import { registerRoutes } from './routes/index';
+import { registerRoutes } from './routes';
 
 export class Server {
 

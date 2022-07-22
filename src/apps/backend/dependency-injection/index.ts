@@ -1,3 +1,3 @@
-import { container as SubscriberContainer } from './Sales/Subscribers'
+import { container as SubscriberContainer } from './sales/Subscribers'
 
-SubscriberContainer
+export default SubscriberContainer
